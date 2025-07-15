@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 
 # Load model
-model = load_model("app/model/wildfire_detector_model.h5")
+model = load_model("app/model/wildfire_detector_model.keras")
 
 # Title and description
 st.set_page_config(page_title="SmokeSignal-AI", layout="centered")
