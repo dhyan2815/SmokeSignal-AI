@@ -4,3 +4,5 @@ Pillow
 numpy
 matplotlib
 scikit-learn
+opencv-python
+python-dotenv
