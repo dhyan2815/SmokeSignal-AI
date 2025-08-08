@@ -1,5 +1,13 @@
+#preprocess.py
+#This file is used to preprocess the image before it is fed into the model.
+
 import numpy as np
-import cv2
+try:
+    import cv2
+    CV2_AVAILABLE = True
+except ImportError:
+    CV2_AVAILABLE = False
+    print("Warning: OpenCV not available, using PIL fallback")
 from PIL import Image
 
 def normalize_image(image_input, target_size=None):
@@ -18,12 +26,17 @@ def normalize_image(image_input, target_size=None):
         # Handle different input types
         if isinstance(image_input, str):
             # Load from file path
-            img = cv2.imread(image_input)
-            if img is None:
-                print(f"Error: Could not load image from {image_input}")
-                return None
-            # Convert BGR to RGB
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            if CV2_AVAILABLE:
+                img = cv2.imread(image_input)
+                if img is None:
+                    print(f"Error: Could not load image from {image_input}")
+                    return None
+                # Convert BGR to RGB
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            else:
+                # Fallback to PIL
+                img_pil = Image.open(image_input)
+                img = np.array(img_pil)
         elif isinstance(image_input, Image.Image):
             # Convert PIL image to numpy array
             img = np.array(image_input)
@@ -33,11 +46,11 @@ def normalize_image(image_input, target_size=None):
 
         # Resize if target size is specified
         if target_size is not None:
-            if isinstance(image_input, str):
+            if isinstance(image_input, str) and CV2_AVAILABLE:
                 # For file paths, use cv2 resize
                 img = cv2.resize(img, target_size)
             else:
-                # For PIL images, use PIL resize
+                # For PIL images or when cv2 not available, use PIL resize
                 img_pil = Image.fromarray(img)
                 img_pil = img_pil.resize(target_size)
                 img = np.array(img_pil)
@@ -106,11 +119,18 @@ def get_image_info(image_input):
     """
     try:
         if isinstance(image_input, str):
-            img = cv2.imread(image_input)
-            if img is None:
-                return None
-            height, width, channels = img.shape
-            format_type = "File"
+            if CV2_AVAILABLE:
+                img = cv2.imread(image_input)
+                if img is None:
+                    return None
+                height, width, channels = img.shape
+                format_type = "File (OpenCV)"
+            else:
+                # Fallback to PIL
+                img_pil = Image.open(image_input)
+                width, height = img_pil.size
+                channels = len(img_pil.getbands())
+                format_type = "File (PIL)"
         elif isinstance(image_input, Image.Image):
             width, height = image_input.size
             channels = len(image_input.getbands())

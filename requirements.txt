@@ -1,8 +1,9 @@
+#requirements.txt
 streamlit
 tensorflow-cpu
 Pillow
 numpy
 matplotlib
 scikit-learn
-opencv-python
+opencv-python-headless
 python-dotenv
