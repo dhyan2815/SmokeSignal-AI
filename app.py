@@ -34,41 +34,41 @@ else:
 
 # Streamlit UI
 st.set_page_config(
-    page_title="SmokeSignal-AI - Wildfire Detection",
+    page_title="SmokeSignal AI",
     page_icon="🔥",
     layout="centered",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
-st.title("🔥 Wildfire Detection")
-st.markdown("Upload a satellite image to detect **wildfires** using AI.")
+st.title("🔥 SmokeSignal AI")
+st.markdown("""
+    ### Wildfire Detection System
+    """)
+st.markdown("Upload a satellite image to detect **wildfires**.")
 
 # Add expandable instructions section
-with st.expander("📋 Instructions & Help", expanded=False):
+with st.expander("ℹ️ Click here for a quick guide on **How To Use** SmokeSignal AI", expanded=False):
     st.markdown("""
-    ### 🚀 Quick Start Guide
+    #### **User Instructions**
     
-    1. **Upload an Image**: Use the file uploader below to select a satellite image (JPG, JPEG, PNG)
-    2. **Enable Email Alerts** (Optional): Check the sidebar option and configure your `.env` file
-    3. **View Results**: The AI will analyze and show detection results with confidence scores
+    **Step 1: Upload Image**
+    - Click "Browse files" below
+    - Select any satellite/aerial image (JPG, PNG)
+    - Image will be automatically processed
     
-    ### 🔍 What the AI Detects
-    - **🔥 Active Fire Indicators**: Smoke plumes, thermal signatures, active fire areas
-    - **🌿 Environmental Changes**: Burn scars, thermal anomalies, vegetation changes
+    **Step 2: System Analysis**
+    - System analyzes image for wildfire indicators
+    - Detects smoke plumes, fire areas, thermal signatures
+    - Provides confidence score (0-100%)
     
-    ### 📧 Email Alert Setup
-    1. Create a `.env` file with your Gmail credentials
-    2. Enable 2-Step Verification and generate an App Password
-    3. Check "Enable Email Alerts" in the sidebar
+    **Step 3: Results & Alerts**
+    - **🔥 Wildfire Detected**: Shows confidence, timestamp, optional email alert
+    - **✅ No Wildfire**: Confirms area is safe
     
-    ### 🔧 Need More Help?
-    Check the detailed instructions page in the sidebar navigation.
     """)
 
-st.markdown("📋 **Need detailed help?** Check out the [Instructions](/📋_Instructions) page in the sidebar.")
-
 # Sidebar for configuration
-st.sidebar.header("⚙️ Configuration")
-enable_alerts = st.sidebar.checkbox("Enable Email Alerts", value=False)
+st.sidebar.header("Additional Configuration")
+enable_alerts = st.sidebar.checkbox("Enable Email Alerts", value=True)
 
 # Check email configuration status
 email_address = os.environ.get("EMAIL_ADDRESS")
@@ -77,14 +77,10 @@ email_configured = bool(email_address and email_password)
 
 if enable_alerts:
     if email_configured:
-        st.sidebar.success("✅ Email alerts configured")
-        st.sidebar.info("Email credentials loaded successfully")
-        st.sidebar.info("Alerts will be sent when wildfires detected")
+        st.sidebar.info("Alerts will be sent to the nearest fire station upon wildfire detection.")
     else:
-        st.sidebar.error("❌ Email not configured")
-        st.sidebar.info("Please check your .env file")
-        st.sidebar.info("Email alerts will not work")
-else:
+        st.sidebar.info("Email alerts are currently not working")
+else:   
     st.sidebar.info("Email alerts disabled")
 
 # Upload image
@@ -120,15 +116,15 @@ if uploaded_file is not None:
             st.subheader(label)
 
             if result:
-                now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                st.warning(f"🚨 Alert triggered at {now}")
+                # now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                st.warning("Initiating automated notification to designated emergency response contacts 🔔")
                 
                 # Send email alert if enabled
                 if enable_alerts:
                     if email_configured:
                         try:
-                            send_email_alert(now, confidence_score)
-                            st.success("📧 Email alert sent successfully!")
+                            send_email_alert(confidence_score)
+                            st.success(" Wildfire Alert sent successfully to the nearest fire station via email 📧")
                         except Exception as e:
                             st.error(f"Failed to send email alert: {str(e)}")
                             st.info("Please check your email configuration")
