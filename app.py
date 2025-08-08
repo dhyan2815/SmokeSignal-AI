@@ -33,9 +33,38 @@ else:
     raise ValueError("Unsupported model input shape.")
 
 # Streamlit UI
-st.set_page_config(page_title="SmokeSignal-AI", layout="centered")
-st.title("🔥 SmokeSignal-AI")
-st.markdown("Upload a satellite image to detect **wildfires**.")
+st.set_page_config(
+    page_title="SmokeSignal-AI - Wildfire Detection",
+    page_icon="🔥",
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
+st.title("🔥 Wildfire Detection")
+st.markdown("Upload a satellite image to detect **wildfires** using AI.")
+
+# Add expandable instructions section
+with st.expander("📋 Instructions & Help", expanded=False):
+    st.markdown("""
+    ### 🚀 Quick Start Guide
+    
+    1. **Upload an Image**: Use the file uploader below to select a satellite image (JPG, JPEG, PNG)
+    2. **Enable Email Alerts** (Optional): Check the sidebar option and configure your `.env` file
+    3. **View Results**: The AI will analyze and show detection results with confidence scores
+    
+    ### 🔍 What the AI Detects
+    - **🔥 Active Fire Indicators**: Smoke plumes, thermal signatures, active fire areas
+    - **🌿 Environmental Changes**: Burn scars, thermal anomalies, vegetation changes
+    
+    ### 📧 Email Alert Setup
+    1. Create a `.env` file with your Gmail credentials
+    2. Enable 2-Step Verification and generate an App Password
+    3. Check "Enable Email Alerts" in the sidebar
+    
+    ### 🔧 Need More Help?
+    Check the detailed instructions page in the sidebar navigation.
+    """)
+
+st.markdown("📋 **Need detailed help?** Check out the [Instructions](/📋_Instructions) page in the sidebar.")
 
 # Sidebar for configuration
 st.sidebar.header("⚙️ Configuration")
@@ -112,28 +141,4 @@ if uploaded_file is not None:
         except Exception as e:
             st.error("Prediction failed. Please check model and input format.")
             st.text(str(e))
-
-# Add demo section
-st.markdown("---")
-st.header("📋 Demo Instructions")
-st.markdown("""
-### How to use SmokeSignal-AI:
-
-1. **Upload an Image**: Use the file uploader above to select a satellite image
-2. **Automatic Analysis**: The AI will analyze the image for wildfire indicators
-3. **Results**: You'll see either:
-   - 🔥 **Wildfire Detected** - with timestamp and optional email alert
-   - ✅ **No Wildfire Detected** - indicating the area is safe
-4. **Email Alerts**: Enable in sidebar to receive notifications for detected wildfires
-
-### Supported Image Formats:
-- JPG/JPEG
-- PNG
-
-### What the AI Detects:
-- Smoke plumes
-- Active fire areas
-- Burn scars
-- Thermal anomalies
-""")
 
