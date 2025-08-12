@@ -123,8 +123,9 @@ if uploaded_file is not None:
                 if enable_alerts:
                     if email_configured:
                         try:
-                            send_email_alert(confidence_score)
-                            st.success(" Wildfire Alert sent successfully to the nearest fire station via email 📧")
+                            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                            send_email_alert(timestamp, confidence_score, img_info)
+                            st.success("🔥 Wildfire Alert sent successfully to the nearest fire station via email 📧")
                         except Exception as e:
                             st.error(f"Failed to send email alert: {str(e)}")
                             st.info("Please check your email configuration")
