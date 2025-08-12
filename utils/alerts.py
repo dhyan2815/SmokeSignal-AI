@@ -1,7 +1,12 @@
 import smtplib
 from email.message import EmailMessage
 import os
+import sys
 from datetime import datetime
+
+# Add parent directory to path to import config
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import Config
 
 def send_email_alert(timestamp, confidence_score=None, image_info=None):
     """
@@ -13,10 +18,10 @@ def send_email_alert(timestamp, confidence_score=None, image_info=None):
         image_info (str, optional): Additional image information
     """
     try:
-        # Get email configuration from environment variables
-        email_address = os.environ.get("EMAIL_ADDRESS")
-        email_password = os.environ.get("EMAIL_PASSWORD")
-        target_email = os.environ.get("TARGET_EMAIL", "admin@example.com")
+        # Get email configuration from Config class
+        email_address = Config.EMAIL_ADDRESS
+        email_password = Config.EMAIL_PASSWORD
+        target_email = Config.TARGET_EMAIL
         
         # Check if email credentials are configured
         if not email_address or not email_password:
@@ -81,8 +86,8 @@ def test_email_configuration():
     Test email configuration without sending an actual alert.
     """
     try:
-        email_address = os.environ.get("EMAIL_ADDRESS")
-        email_password = os.environ.get("EMAIL_PASSWORD")
+        email_address = Config.EMAIL_ADDRESS
+        email_password = Config.EMAIL_PASSWORD
         
         if not email_address or not email_password:
             return False, "Email credentials not configured"

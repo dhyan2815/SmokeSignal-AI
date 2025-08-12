@@ -6,49 +6,49 @@ Set up your email credentials and other settings here.
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load .env file if it exists (for development)
 load_dotenv()
 
-# Email Configuration
-EMAIL_CONFIG = {
-    "EMAIL_ADDRESS": os.getenv("EMAIL_ADDRESS", ""),
-    "EMAIL_PASSWORD": os.getenv("EMAIL_PASSWORD", ""),
-    "TARGET_EMAIL": os.getenv("TARGET_EMAIL", "admin@example.com"),
-}
-
-# Model Configuration
-MODEL_CONFIG = {
-    "MODEL_PATH": "model/wildfire_detector_model.keras",
-    "CONFIDENCE_THRESHOLD": 0.5,
-}
-
-# Application Configuration
-APP_CONFIG = {
-    "PAGE_TITLE": "SmokeSignal-AI",
-    "PAGE_ICON": "🔥",
-    "LAYOUT": "centered",
-}
-
-def check_email_configuration():
-    """
-    Check if email configuration is properly set up.
-    """
-    email_address = EMAIL_CONFIG["EMAIL_ADDRESS"]
-    email_password = EMAIL_CONFIG["EMAIL_PASSWORD"]
+class Config:
+    """Configuration class for SmokeSignal-AI"""
     
-    if not email_address or not email_password:
-        return False, "Email credentials not configured"
+    # Email Configuration
+    EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
+    EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+    TARGET_EMAIL = os.environ.get("TARGET_EMAIL", "admin@example.com")
     
-    return True, "Email configuration is valid"
-
-def get_configuration_status():
-    """
-    Get the status of all configurations.
-    """
-    status = {
-        "email_configured": check_email_configuration()[0],
-        "model_exists": os.path.exists(MODEL_CONFIG["MODEL_PATH"]),
-        "email_address": EMAIL_CONFIG["EMAIL_ADDRESS"] if EMAIL_CONFIG["EMAIL_ADDRESS"] else "Not set",
-        "target_email": EMAIL_CONFIG["TARGET_EMAIL"],
-    }
-    return status 
+    # Model Configuration
+    MODEL_PATH = "model/wildfire_detector_model.keras"
+    
+    # Detection Configuration
+    CONFIDENCE_THRESHOLD = 0.5
+    
+    @classmethod
+    def is_email_configured(cls):
+        """Check if email configuration is complete"""
+        return bool(cls.EMAIL_ADDRESS and cls.EMAIL_PASSWORD)
+    
+    @classmethod
+    def get_email_config_status(cls):
+        """Get detailed email configuration status"""
+        status = {
+            "email_address": bool(cls.EMAIL_ADDRESS),
+            "email_password": bool(cls.EMAIL_PASSWORD),
+            "target_email": cls.TARGET_EMAIL,
+            "fully_configured": cls.is_email_configured()
+        }
+        return status
+    
+    @classmethod
+    def debug_environment(cls):
+        """Debug environment variables for troubleshooting"""
+        debug_info = {
+            "environment_variables": {
+                "EMAIL_ADDRESS": "SET" if cls.EMAIL_ADDRESS else "NOT SET",
+                "EMAIL_PASSWORD": "SET" if cls.EMAIL_PASSWORD else "NOT SET",
+                "TARGET_EMAIL": cls.TARGET_EMAIL
+            },
+            "email_configured": cls.is_email_configured(),
+            "env_file_loaded": os.path.exists(".env")
+        }
+        return debug_info 

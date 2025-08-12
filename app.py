@@ -6,10 +6,9 @@ from PIL import Image
 from datetime import datetime
 import os
 import sys
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Import configuration
+from config import Config
 
 # Add utils directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'utils'))
@@ -71,15 +70,19 @@ st.sidebar.header("Additional Configuration")
 enable_alerts = st.sidebar.checkbox("Enable Email Alerts", value=True)
 
 # Check email configuration status
-email_address = os.environ.get("EMAIL_ADDRESS")
-email_password = os.environ.get("EMAIL_PASSWORD")
-email_configured = bool(email_address and email_password)
+email_configured = Config.is_email_configured()
+
+# Add debug information in sidebar
+with st.sidebar.expander("🔧 Debug Info", expanded=False):
+    debug_info = Config.debug_environment()
+    st.json(debug_info)
 
 if enable_alerts:
     if email_configured:
         st.sidebar.info("Alerts will be sent to the nearest fire station upon wildfire detection.")
     else:
-        st.sidebar.info("Email alerts are currently not working")
+        st.sidebar.error("❌ Email alerts not configured")
+        st.sidebar.info("Please set EMAIL_ADDRESS and EMAIL_PASSWORD environment variables")
 else:   
     st.sidebar.info("Email alerts disabled")
 
