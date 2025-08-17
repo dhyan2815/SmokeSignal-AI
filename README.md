@@ -1,6 +1,6 @@
 # SmokeSignal AI
 
-**An Deep Learning model based wildfire detection system** that analyzes satellite images to identify potential wildfires and sends automated alerts to emergency services.
+**A CNN–based wildfire detection system** that analyzes satellite images to identify potential wildfires and sends automated alerts to emergency contacts.
 
 ## Features
 
@@ -8,89 +8,73 @@
 - **Real-time Analysis**: Instant processing with confidence scoring
 - **Automated Alerts**: Email notifications to fire stations and emergency services
 - **User-Friendly Interface**: Clean, professional Streamlit web application
-- **Multi-Page Navigation**: Organized help and instructions
-- **Secure Configuration**: Environment-based email setup
+- **Config-Aware Alerts**: Auto-enables email alerts when credentials are set
+- **Secure Configuration**: Environment-based email setup (no credentials in code)
 - **Confidence Scoring**: Detailed detection confidence levels
 
 ## How SmokeSignal AI works?
 
-### Simple 3-Step Process
+Just upload your satellite image—SmokeSignal AI instantly scans for wildfire signs, delivers a confidence score, and, if danger is detected, triggers real-time email alerts to keep you and emergency teams ahead of the threat.
 
-1. **Upload Image**
-   - Click "Browse files" on the main page
-   - Select any satellite/aerial image (JPG, PNG)
-   - Image is automatically processed
+## Demo Email Alert
 
-2. **AI Analysis**
-   - System analyzes for wildfire indicators
-   - Detects smoke plumes, fire areas, thermal signatures
-   - Provides confidence score (0-100%)
-
-3. **Results & Alerts**
-   - **Wildfire Detected**: Shows confidence, timestamp, email alert
-   - **No Wildfire**: Confirms area is safe
-   - **Email Alerts**: Instant notifications to emergency services
-
-### Email Alert Configuration
-
-1. **Enable Alerts**: Check "Enable Email Alerts" in sidebar
-2. **Verify Status**: Confirm email credentials are loaded
-3. **Receive Notifications**: Get instant alerts for detected wildfires
-
-##  Demo Examples
-
-### Example 1: Wildfire Detection
 ```
-Upload: satellite_image_with_smoke.jpg
-Result: 🔥 Wildfire Detected
-Confidence: 87.5%
-Alert: Email sent to fire station
-Timestamp: 2024-01-15 14:30:25
+🔥Wildfire Detection Alert
+
+Detection Time: 2025-08-17 05:32:51
+System: SmokeSignal-AI Wildfire Detector
+
+⚠️ A potential wildfire has been detected in the analyzed image.
+
+Detection Level: 78.56%
+
+format: PIL Image
+width: 241
+height: 148
+channels: 3
+aspect_ratio: 1.6283783783783783
+
+Immediate Action Required
+Contact local emergency services if confirmed
+Monitor the area for further developments
+
+This is an automated alert from SmokeSignal-AI.
+Please verify all detections before taking action.
+
 ```
 
-### Example 2: Safe Area
-```
-Upload: clear_forest_area.jpg
-Result: ✅ No Wildfire Detected
-Confidence: 12.3%
-Status: Area appears safe
-```
+## What SmokeSignal-AI Detects
 
-### Example 3: High Confidence Detection
-```
-Upload: active_fire_zone.jpg
-Result: 🔥 Wildfire Detected
-Confidence: 94.2%
-Alert: High-priority notification sent
-```
+### Active Fire Indicators
 
-## What the SmokeSignal Detects
-
-###  Active Fire Indicators
 - Smoke plumes and visible fire
 - Bright thermal signatures
 - Active fire areas and flame patterns
 
-###  Environmental Changes
+### Environmental Changes
+
 - Burn scars and damage areas
 - Thermal anomalies and heat patterns
 - Vegetation changes indicating fire activity
 
-##  Technical Architecture
+## Technical Architecture
 
 ### Model Framework
+
 - **Framework**: TensorFlow/Keras
 - **Input**: Satellite images (auto-resized)
 - **Output**: Binary classification with confidence scores
 - **Processing**: Real-time analysis pipeline
 
 ### Preprocessing Pipeline
+
 1. **Image Loading**: Multi-format support (JPG, PNG)
 2. **Resizing**: Automatic dimension adjustment
 3. **Normalization**: Pixel values scaled to [0, 1]
 4. **Batch Processing**: Model-ready format
 
 ### Alert System
+
 - **SMTP Integration**: Gmail SMTP for reliability
 - **Rich Content**: Timestamps, confidence scores, details
 - **Error Handling**: Graceful failure with user feedback
@@ -98,9 +82,15 @@ Alert: High-priority notification sent
 ## User Interface Features
 
 - **Clean detection interface** with file uploader
-- **Expandable instructions** for quick help
-- **Real-time analysis** with progress indicators
-- **Professional results display** with confidence scores
+- **Expandable quick guide** for minimal, high-signal help
+- **Real-time analysis** with progress/status indicator
+- **Concise results display** with confidence score
+
+## Data Privacy
+
+- Images are processed in-memory for analysis and are not stored by the app.
+- Email alerts include only detection metadata (timestamp, confidence, basic image info).
+- No personal information is collected.
 
 ## Acknowledgments
 
@@ -111,6 +101,21 @@ Alert: High-priority notification sent
 
 ---
 
-**SmokeSignal-AI** - Protecting our planet, one image at a time. 🌍🔥
+## 👨‍💻 Author
 
-*Empowering emergency services with AI-driven wildfire detection technology.* 
+**Dhyan Patel**
+
+- GitHub: [@dhyan2815](https://github.com/dhyan2815)
+- LinkedIn: [Dhyan Patel](https://linkedin.com/in/dhyan-patel)
+- Portfolio: [Dhyan Dev](https://dhyan-patel.onrender.com)
+
+---
+
+**SmokeSignal-AI** - _Empowering emergency services with AI-driven wildfire detection technology._ 🚀🌲🔥
+
+<div align="center">
+  <p>
+    <a href="https://github.com/dhyan2815/SmokeSignal-AI/issues">🐛 Report Bug</a> •
+    <a href="https://github.com/dhyan2815/SmokeSignal-AI/issues">💡 Request Feature</a>
+  </p>
+</div>
