@@ -107,21 +107,19 @@ if uploaded_file is not None:
             st.subheader(label)
 
             if result:
-                # now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                st.warning("Initiating automated notification to designated emergency response contacts 🔔")
+                status = st.empty()
+                status.warning("Initiating automated notification to designated emergency response contacts 🔔")
                 
                 # Send email alert if enabled and properly configured
                 if enable_alerts:
                     try:
                         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         send_email_alert(timestamp, confidence_score, img_info)
-                        st.success("🔥 Wildfire Alert sent successfully via email 📧")
+                        status.success("🔥 Wildfire Alert sent successfully via email 📧")
                     except Exception as e:
-                        st.error(f"Failed to send email alert: {str(e)}")
-                        st.info("Please check your email configuration")
+                        status.error("Failed to send email alert")
                 else:
-                    st.error("❌ Email alerts not configured")
-                    st.info("Set EMAIL_ADDRESS and EMAIL_PASSWORD in your environment to enable alerts")
+                    status.error("Email alerts not configured")
             else:
                 st.success("✅ Area appears to be safe from wildfires")
                 
