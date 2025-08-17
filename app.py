@@ -7,15 +7,13 @@ from datetime import datetime
 import os
 import sys
 
-# Import configuration
-from config import Config
-
 # Add utils directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'utils'))
 
-# Import utility modules
+# Import configuration and utility modules
+from config import Config
 from alerts import send_email_alert
-from preprocess import normalize_image, get_image_info, preprocess_for_model
+from preprocess import get_image_info, preprocess_for_model
 
 # Load model
 model = load_model("model/wildfire_detector_model.keras")
@@ -44,6 +42,15 @@ st.markdown("""
     """)
 st.markdown("Upload a satellite image to detect **wildfires**.")
 
+# Email alert configuration status (auto-enabled if configured)
+email_configured = Config.is_email_configured()
+enable_alerts = email_configured
+
+if enable_alerts:
+    st.info("Email alerts are enabled and will be sent when a wildfire is detected.")
+else:
+    st.warning("Email alerts not configured. Set EMAIL_ADDRESS and EMAIL_PASSWORD in your environment to enable alerts.")
+
 # Add expandable instructions section
 with st.expander("ℹ️ Click here for a quick guide on **How To Use** SmokeSignal AI", expanded=False):
     st.markdown("""
@@ -65,26 +72,7 @@ with st.expander("ℹ️ Click here for a quick guide on **How To Use** SmokeSig
     
     """)
 
-# Sidebar for configuration
-st.sidebar.header("Additional Configuration")
-enable_alerts = st.sidebar.checkbox("Enable Email Alerts", value=True)
-
-# Check email configuration status
-email_configured = Config.is_email_configured()
-
-# Add debug information in sidebar
-with st.sidebar.expander("🔧 Debug Info", expanded=False):
-    debug_info = Config.debug_environment()
-    st.json(debug_info)
-
-if enable_alerts:
-    if email_configured:
-        st.sidebar.info("Alerts will be sent to the nearest fire station upon wildfire detection.")
-    else:
-        st.sidebar.error("❌ Email alerts not configured")
-        st.sidebar.info("Please set EMAIL_ADDRESS and EMAIL_PASSWORD environment variables")
-else:   
-    st.sidebar.info("Email alerts disabled")
+# Sidebar removed; alerts are auto-enabled based on configuration
 
 # Upload image
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
@@ -122,19 +110,18 @@ if uploaded_file is not None:
                 # now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 st.warning("Initiating automated notification to designated emergency response contacts 🔔")
                 
-                # Send email alert if enabled
+                # Send email alert if enabled and properly configured
                 if enable_alerts:
-                    if email_configured:
-                        try:
-                            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                            send_email_alert(timestamp, confidence_score, img_info)
-                            st.success("🔥 Wildfire Alert sent successfully to the nearest fire station via email 📧")
-                        except Exception as e:
-                            st.error(f"Failed to send email alert: {str(e)}")
-                            st.info("Please check your email configuration")
-                    else:
-                        st.error("❌ Email alerts not configured")
-                        st.info("Please set up your .env file with EMAIL_ADDRESS and EMAIL_PASSWORD")
+                    try:
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        send_email_alert(timestamp, confidence_score, img_info)
+                        st.success("🔥 Wildfire Alert sent successfully via email 📧")
+                    except Exception as e:
+                        st.error(f"Failed to send email alert: {str(e)}")
+                        st.info("Please check your email configuration")
+                else:
+                    st.error("❌ Email alerts not configured")
+                    st.info("Set EMAIL_ADDRESS and EMAIL_PASSWORD in your environment to enable alerts")
             else:
                 st.success("✅ Area appears to be safe from wildfires")
                 
