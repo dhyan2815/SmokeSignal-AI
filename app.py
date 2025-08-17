@@ -40,7 +40,7 @@ st.title("🔥 SmokeSignal AI")
 st.markdown("""
     ### Wildfire Detection System
     """)
-st.markdown("Upload a satellite image to detect **wildfires**.")
+st.markdown("Upload a image to detect **wildfires**.")
 
 # Email alert configuration status (auto-enabled if configured)
 email_configured = Config.is_email_configured()
@@ -54,22 +54,20 @@ else:
 # Add expandable instructions section
 with st.expander("ℹ️ Click here for a quick guide on **How To Use** SmokeSignal AI", expanded=False):
     st.markdown("""
-    #### **User Instructions**
-    
-    **Step 1: Upload Image**
-    - Click "Browse files" below
-    - Select any satellite/aerial image (JPG, PNG)
-    - Image will be automatically processed
-    
-    **Step 2: System Analysis**
-    - System analyzes image for wildfire indicators
-    - Detects smoke plumes, fire areas, thermal signatures
-    - Provides confidence score (0-100%)
-    
-    **Step 3: Results & Alerts**
-    - **🔥 Wildfire Detected**: Shows confidence, timestamp, optional email alert
-    - **✅ No Wildfire**: Confirms area is safe
-    
+    **Purpose**: Analyze aerial/satellite images for wildfire indicators.
+
+    **How to use**
+    1. Upload a JPG/PNG image.
+    2. The system analyzes it automatically.
+    3. Review the result:
+       - 🔥 Wildfire Detected — with confidence
+       - ✅ No Wildfire Detected
+
+    **Alerts**
+    - If email is configured, an alert is sent automatically when a wildfire is detected.
+
+    **Note**
+    - Results are AI-generated for decision support. Confirm with local authorities for emergencies.
     """)
 
 # Sidebar removed; alerts are auto-enabled based on configuration
