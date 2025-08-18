@@ -4,3 +4,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 utils/__pycache__/alerts.cpython-312.pyc
+assets/

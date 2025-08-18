@@ -2,6 +2,11 @@
 
 **A CNN–based wildfire detection system** that analyzes satellite images to identify potential wildfires and sends automated alerts to emergency contacts.
 
+<div align="center">
+  <img src="assets/whats_inside.png" alt="Project at a Glance - SmokeSignal AI" width="800" />
+  
+</div>
+
 ## Features
 
 - **AI-Powered Detection**: Deep learning model for accurate wildfire identification
