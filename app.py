@@ -122,6 +122,9 @@ if uploaded_file is not None:
                 st.success("✅ Area appears to be safe from wildfires")
                 
         except Exception as e:
-            st.error("Prediction failed. Please check model and input format.")
-            st.text(str(e))
-
+            st.error(
+                "Sorry, we couldn't analyze your image. "
+                "Please ensure you uploaded a clear satellite image in JPG or PNG format. "
+                "If the problem persists, try a different image or contact support."
+            )
+            print(e)
