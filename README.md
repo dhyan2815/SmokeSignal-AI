@@ -21,6 +21,62 @@
 
 Just upload your satellite image—SmokeSignal AI instantly scans for wildfire signs, delivers a confidence score, and, if danger is detected, triggers real-time email alerts to keep you and emergency teams ahead of the threat.
 
+## Model Development Pipeline
+
+This diagram shows the complete end-to-end workflow of our wildfire detection model:
+
+```mermaid
+flowchart TD
+    A[📊 Data Collection & Preprocessing] --> B[🏗️ Model Architecture & Training]
+    B --> C[📈 Training Evaluation & Monitoring]
+    C --> D[🧪 Model Testing & Validation]
+    D --> E[💾 Performance Analysis & Deployment]
+    
+    %% Data Collection & Preprocessing Phase
+    A --> A1[Dataset Download]
+    A --> A2[Image Processing]
+    A --> A3[Data Split]
+    
+    %% Model Architecture & Training Phase
+    B --> B1[CNN Architecture]
+    B --> B2[Training Configuration]
+    B --> B3[Regularization]
+    
+    %% Training Evaluation & Monitoring Phase
+    C --> C1[Training Metrics]
+    C --> C2[Loss Monitoring]
+    C --> C3[Overfitting Prevention]
+    
+    %% Model Testing & Validation Phase
+    D --> D1[Test Evaluation]
+    D --> D2[Performance Metrics]
+    D --> D3[Real-world Testing]
+    
+    %% Performance Analysis & Deployment Phase
+    E --> E1[Visualization]
+    E --> E2[Model Saving]
+    E --> E3[Production Ready]
+    
+    %% Styling - Dynamic theme compatible
+    classDef phase fill:#f8fafc,stroke:#3b82f6,stroke-width:3px,color:#1e293b
+    classDef subphase fill:#e2e8f0,stroke:#8b5cf6,stroke-width:2px,color:#334155
+    
+    %% Dark theme overrides
+    classDef phaseDark fill:#1e293b,stroke:#60a5fa,stroke-width:3px,color:#f1f5f9
+    classDef subphaseDark fill:#334155,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
+    
+    class A,B,C,D,E phase
+    class A1,A2,A3,B1,B2,B3,C1,C2,C3,D1,D2,D3,E1,E2,E3 subphase
+```
+
+### Workflow Stages
+
+1. **📊 Data Collection & Preprocessing**: Kaggle Wildfire Dataset (42,850 images) with 64x64 resizing and normalization
+2. **🏗️ Model Architecture & Training**: CNN with Conv2D layers, MaxPooling, Dense layers, and Dropout regularization
+3. **📈 Training Evaluation & Monitoring**: Real-time accuracy tracking (94.82% training, 95.95% validation)
+4. **🧪 Model Testing & Validation**: Comprehensive evaluation on 6,300 test images
+5. **💾 Performance Analysis & Deployment**: Native Keras format for production-ready inference
+
 ## Demo Email Alert
 
 ```
