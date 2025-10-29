@@ -27,46 +27,47 @@ This diagram shows the complete end-to-end workflow of our wildfire detection mo
 
 ```mermaid
 flowchart TD
-    A[📊 Data Collection & Preprocessing] --> B[🏗️ Model Architecture & Training]
-    B --> C[📈 Training Evaluation & Monitoring]
-    C --> D[🧪 Model Testing & Validation]
-    D --> E[💾 Performance Analysis & Deployment]
-    
-    %% Data Collection & Preprocessing Phase
-    A --> A1[Dataset Download]
-    A --> A2[Image Processing]
-    A --> A3[Data Split]
-    
-    %% Model Architecture & Training Phase
-    B --> B1[CNN Architecture]
-    B --> B2[Training Configuration]
-    B --> B3[Regularization]
-    
-    %% Training Evaluation & Monitoring Phase
-    C --> C1[Training Metrics]
-    C --> C2[Loss Monitoring]
-    C --> C3[Overfitting Prevention]
-    
-    %% Model Testing & Validation Phase
-    D --> D1[Test Evaluation]
-    D --> D2[Performance Metrics]
-    D --> D3[Real-world Testing]
-    
-    %% Performance Analysis & Deployment Phase
-    E --> E1[Visualization]
-    E --> E2[Model Saving]
-    E --> E3[Production Ready]
-    
-    %% Styling - Dynamic theme compatible
-    classDef phase fill:#f8fafc,stroke:#3b82f6,stroke-width:3px,color:#1e293b
-    classDef subphase fill:#e2e8f0,stroke:#8b5cf6,stroke-width:2px,color:#334155
-    
-    %% Dark theme overrides
-    classDef phaseDark fill:#1e293b,stroke:#60a5fa,stroke-width:3px,color:#f1f5f9
-    classDef subphaseDark fill:#334155,stroke:#a78bfa,stroke-width:2px,color:#e2e8f0
-    
-    class A,B,C,D,E phase
-    class A1,A2,A3,B1,B2,B3,C1,C2,C3,D1,D2,D3,E1,E2,E3 subphase
+  %% Real-time Inference Path
+  U["User & Browser"]:::external -->|"upload image"| UI["Streamlit App<br/>(app.py)"]:::frontend
+  UI -->|"raw image"| PP["Preprocessing Module<br/>(utils/preprocess.py)"]:::core
+  UI --> Assets["Static Assets<br/>(assets/)"]:::frontend
+  PP -->|"tensor"| IE["Inference Engine<br/>(Keras/TensorFlow)"]:::core
+  IE -->|"loads model"| MA["Model Artifact<br/>(wildfire_detector_model.keras)"]:::storage
+  IE -->|"confidence score"| UI
+  IE -->|"score ≥ threshold"| AM["Alert Module<br/>(utils/alerts.py)"]:::core
+  AM -.->|"reads env vars"| CFG["Configuration Module<br/>(config.py)"]:::doc
+  AM -->|"email request"| SMTP["Gmail SMTP Server"]:::external
+
+  %% Dependency Manifest
+  RQ["requirements.txt"]:::doc
+  RQ -.-> UI
+
+  %% Optional Offline Training Pipeline
+  subgraph "Offline Training (Optional)"
+      direction TB
+      NB["Training Notebook<br/>(SmokeSignal-AI.ipynb)"]:::offline
+      NB -->|"uses dataset"| DS["Kaggle Wildfire Dataset"]:::external
+      NB -->|"train & export"| MA
+      RQ -.-> NB
+  end
+
+  %% Click Events (All nodes are now defined *before* this block)
+  click UI "https://github.com/dhyan2815/smokesignal-ai/blob/main/app.py"
+  click Assets "https://github.com/dhyan2815/smokesignal-ai/tree/main/assets/"
+  click PP "https://github.com/dhyan2815/smokesignal-ai/blob/main/utils/preprocess.py"
+  click AM "https://github.com/dhyan2815/smokesignal-ai/blob/main/utils/alerts.py"
+  click CFG "https://github.com/dhyan2815/smokesignal-ai/blob/main/config.py"
+  click MA "https://github.com/dhyan2815/smokesignal-ai/blob/main/model/wildfire_detector_model.keras"
+  click NB "https://github.com/dhyan2815/smokesignal-ai/blob/main/notebooks/SmokeSignal-AI.ipynb"
+  click RQ "https://github.com/dhyan2815/smokesignal-ai/blob/main/requirements.txt"
+
+  %% Styles
+  classDef frontend fill:#D0E8FF,stroke:#0091EA,stroke-width:2px
+  classDef core fill:#E0F7FA,stroke:#006064,stroke-width:2px
+  classDef storage fill:#FFF8E1,stroke:#FFA000,stroke-width:2px
+  classDef external fill:#FFE0B2,stroke:#E65100,stroke-width:2px
+  classDef doc fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,stroke-dasharray: 5 5
+  classDef offline fill:#F1F8E9,stroke:#33691E,stroke-width:2px,stroke-dasharray: 5 5
 ```
 
 ### Workflow Stages
