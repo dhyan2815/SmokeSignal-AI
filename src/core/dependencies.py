@@ -9,7 +9,7 @@ def get_model():
     Lazily load and cache the TensorFlow model once.
     """
     try:
-        model = tf.keras.models.load_model(settings.MODEL_PATH)
+        model = tf.keras.models.load_model(settings.model_path)
         logger.info("✅ TensorFlow model loaded successfully.")
         return model
     except Exception as e:

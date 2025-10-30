@@ -1,19 +1,21 @@
 import numpy as np
 from PIL import Image
 import tensorflow as tf
-from src.core.logger import logger
+from src.core.logger import setup_logger
 from src.core.dependencies import get_model
+
+logger = setup_logger(__name__)
 
 def preprocess_image(image):
     """
     Preprocess a PIL image for the model.
-    - Resize to (224, 224)
+    - Resize to (64, 64)
     - Normalize pixel values (0–1)
     - Add batch dimension
     """
-    img = image.resize((224, 224))
+    img = image.resize((64, 64))
     arr = np.array(img) / 255.0
-    arr = np.expand_dims(arr, axis=0)  # shape: (1, 224, 224, 3)
+    arr = np.expand_dims(arr, axis=0) 
     return arr
 
 def run_inference(image):

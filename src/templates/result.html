@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prediction Result</title>
+    <style>
+      body { font-family: Arial; background: #f8f9fa; text-align: center; padding-top: 50px; }
+      h2 { color: #d33f49; }
+      .result-box { background: white; display: inline-block; padding: 20px 40px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+      a { display: block; margin-top: 20px; color: #d33f49; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <h2>Prediction Result</h2>
+    <div class="result-box">
+      <p><b>Label:</b> {{ label }}</p>
+      <p><b>Confidence:</b> {{ confidence }}</p>
+    </div>
+    <a href="/ui">🔁 Try another image</a>
+  </body>
+</html>
