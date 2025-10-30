@@ -1,14 +1,8 @@
 import logging
-from .config import Config
+from src.core.config import settings
 
-def setup_logger(name: str):
-    logger = logging.getLogger(name)
-    logger.setLevel(Config.LOG_LEVEL)
-
-    if not logger.handlers:
-        ch = logging.StreamHandler()
-        formatter = logging.Formatter("[%(asctime)s] %(levelname)s - %(name)s: %(message)s")
-        ch.setFormatter(formatter)
-        logger.addHandler(ch)
-
-    return logger
+logging.basicConfig(
+    level=getattr(logging, settings.log_level.upper(), "INFO"),
+    format="%(asctime)s | %(levelname)s | %(message)s"
+)
+logger = logging.getLogger(settings.app_name)

@@ -1,10 +1,23 @@
 from fastapi import FastAPI
-from src.api import routes_inference
+from src.api.routes_inference import router as inference_router
+from src.api.routes_alert import router as alerts_router
+from src.core.exceptions import ExceptionMiddleware
 
-app = FastAPI(title="SmokeSignal AI", version="2.0")
+from src.core.config import settings
+print(settings.model_path)
 
-app.include_router(routes_inference.router, prefix="/api")
+from src.core.logger import logger
+logger.info("Model loaded successfully.")
+
+app = FastAPI(title="SmokeSignal AI")
+
+# Routers
+app.include_router(inference_router, prefix="/api", tags=["Inference"])
+app.include_router(alerts_router, prefix="/api", tags=["Alerts"])
+
+# Global exception middleware
+app.add_middleware(ExceptionMiddleware)
 
 @app.get("/")
-async def root():
-    return {"message": "SmokeSignal AI API is running"}
+def root():
+    return {"message": "SmokeSignal AI Backend is running 🚀"}

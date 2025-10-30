@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Add parent directory to path to import config
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import Config
+from src.core.config import Config
 
 def send_email_alert(timestamp, confidence_score=None, image_info=None):
     """
