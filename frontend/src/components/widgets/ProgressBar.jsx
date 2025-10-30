@@ -9,8 +9,8 @@ export function ProgressBar({ value, isFire = true }) {
         transition={{ duration: 1, ease: "easeOut" }}
         className={`h-full rounded-full relative ${
           isFire
-            ? "bg-gradient-to-r from-orange-500 to-red-600"
-            : "bg-gradient-to-r from-green-500 to-emerald-600"
+            ? "bg-linear-to-r from-orange-500 to-red-600"
+            : "bg-linear-to-r from-green-500 to-emerald-600"
         }`}
       >
         {/* Shimmer Effect */}
@@ -23,7 +23,7 @@ export function ProgressBar({ value, isFire = true }) {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent"
         />
       </motion.div>
 

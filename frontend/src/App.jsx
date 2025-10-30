@@ -11,6 +11,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+        {/* ============================================
+            FOREST FIRE CLIP BACKGROUND VIDEO
+        ============================================ */}
+        <video
+        src="/forest_fire_clip.mp4"
+        autoPlay
+        loop
+        muted
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
       {/* ============================================
           ANIMATED BACKGROUND ELEMENTS
       ============================================ */}
@@ -47,7 +57,7 @@ export default function App() {
           transition={{ duration: 0.8 }}
           className="text-center mb-8"
         >
-          <div className="flex items-center justify-center gap-4 pt-2">
+          <div className="flex items-center justify-center gap-4 pt-5">
             {/* Logo/Icon */}
             <motion.div
               initial={{ scale: 0 }}
@@ -158,18 +168,6 @@ export default function App() {
 
           </div>
         </div>
-
-        {/* ============================================
-            FOOTER
-        ============================================ */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mt-2 text-center text-gray-500 text-sm"
-        >
-          Protecting forests, one prediction at a time 🌲
-        </motion.p>
       </div>
     </div>
   );
