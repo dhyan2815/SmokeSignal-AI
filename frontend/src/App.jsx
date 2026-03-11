@@ -46,40 +46,39 @@ export default function App() {
       {/* ============================================
           MAIN CONTENT WRAPPER
       ============================================ */}
-      <div className="relative z-10 flex flex-col min-h-screen px-4 py-4 md:py-8">
+      <div className="relative z-10 flex flex-col h-screen px-4 py-2 md:py-4">
 
         {/* ============================================
-            HEADER SECTION (Full Width)
+            HEADER SECTION (Compact)
         ============================================ */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-6 md:mb-10"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-4 md:mb-6"
         >
-          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 pt-2">
-            {/* Logo/Icon */}
+          <div className="flex items-center justify-center gap-3 pt-1">
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 mb-2 md:mb-0 bg-linear-to-br from-orange-500 to-red-600 rounded-xl md:rounded-2xl shadow-2xl"
+              className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-linear-to-br from-orange-500 to-red-600 rounded-lg md:rounded-xl shadow-xl"
             >
-              <Flame className="w-6 h-6 md:w-8 md:h-8 text-white" />
+              <Flame className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </motion.div>
 
-            {/* Title */}
-            <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-red-500 to-pink-500 tracking-tight py-2">
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-red-500 to-pink-500 tracking-tight py-1">
               SmokeSignal AI
             </h1>
           </div>
 
-          {/* Subtitle */}
-          <p className="text-gray-300 text-sm md:text-base max-w-xl mx-auto leading-relaxed px-4">
-            Advanced wildfire detection powered by deep learning. Upload
-            satellite imagery for instant analysis with{" "}
-            <span className="text-orange-400 font-semibold">95%+ accuracy</span>
+          <p className="text-gray-300 text-xs md:text-sm max-w-lg mx-auto leading-tight opacity-90">
+            Advanced wildfire detection powered by deep learning.
           </p>
+        </motion.div>
+
+        {/* ============================================
+            TWO COLUMN GRID LAYOUT (Tighter)
+        ============================================ */}
+        <div className="flex-1 max-w-6xl w-full mx-auto overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-start h-full">
 
           {/* Feature Pills */}
           <motion.div
@@ -145,18 +144,18 @@ export default function App() {
                 // ============================================
                 // PLACEHOLDER WHEN NO RESULTS
                 // ============================================
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 md:p-12 text-center min-h-[300px] md:min-h-[400px] flex flex-col items-center justify-center">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 text-center min-h-[250px] md:min-h-[350px] flex flex-col items-center justify-center">
                   <motion.div
                     animate={{
                       scale: [1, 1.1, 1],
                       opacity: [0.5, 0.8, 0.5],
                     }}
                     transition={{ duration: 3, repeat: Infinity }}
-                    className="w-24 h-24 mb-6 bg-linear-to-br from-orange-500/20 to-red-500/20 rounded-full flex items-center justify-center"
+                    className="w-16 h-16 md:w-20 md:h-20 mb-4 bg-linear-to-br from-orange-500/20 to-red-500/20 rounded-full flex items-center justify-center"
                   >
-                    <Flame className="w-12 h-12 text-orange-400/50" />
+                    <Flame className="w-8 h-8 md:w-10 md:h-10 text-orange-400/50" />
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-gray-400 mb-2">
+                  <h3 className="text-xl font-bold text-gray-400 mb-1">
                     Awaiting Analysis
                   </h3>
                   <p className="text-gray-500 max-w-sm">
@@ -167,6 +166,15 @@ export default function App() {
             </motion.div>
 
           </div>
+        </div>
+
+        {/* ============================================
+            FOOTER (Compact)
+        ============================================ */}
+        <div className="mt-auto py-2 text-center">
+          <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-widest opacity-60">
+            © 2026 SmokeSignal AI • Built by Dhyan Patel
+          </p>
         </div>
       </div>
     </div>

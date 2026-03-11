@@ -63,65 +63,42 @@ export default function UploadForm({ result, setResult, loading, setLoading }) {
           {...getRootProps()}
           className={clsx(
             "relative group cursor-pointer transition-all duration-300",
-            "bg-white/5 backdrop-blur-md border-2 border-dashed rounded-3xl p-12",
+            "bg-white/5 backdrop-blur-md border-2 border-dashed rounded-3xl p-8 md:p-10",
             "hover:bg-white/10 hover:border-orange-500/50",
             isDragActive
-              ? "border-orange-500 bg-orange-500/10 scale-105"
+              ? "border-orange-500 bg-orange-500/10 scale-102"
               : "border-white/20"
           )}
         >
           <input {...getInputProps()} />
-          <div className="flex flex-col items-center justify-center text-center space-y-4">
-            {/* Upload Icon */}
+          <div className="flex flex-col items-center justify-center text-center space-y-3">
             <motion.div
-              animate={{
-                y: isDragActive ? -10 : 0,
-                scale: isDragActive ? 1.1 : 1,
-              }}
-              className="p-6 bg-linear-to-br from-orange-500/20 to-red-500/20 rounded-2xl"
+              className="p-4 bg-linear-to-br from-orange-500/20 to-red-500/20 rounded-xl"
             >
-              <Upload className="w-12 h-12 text-orange-400" />
+              <Upload className="w-8 h-8 text-orange-400" />
             </motion.div>
 
-            {/* Upload Text */}
             <div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                {isDragActive ? "Drop it here!" : "Upload Satellite Image"}
+              <h3 className="text-xl font-bold text-white mb-1">
+                Upload Satellite Image
               </h3>
-              <p className="text-gray-400">
+              <p className="text-gray-400 text-sm">
                 Drag & drop or click to browse
               </p>
-              <p className="text-sm text-gray-500 mt-2">
-                Supports: JPG, PNG, WEBP
-              </p>
             </div>
-
-            {/* Select File Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="button"
-              className="px-6 py-3 bg-linear-to-r from-orange-500 to-red-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-orange-500/50 transition-shadow"
-            >
-              Select File
-            </motion.button>
           </div>
         </div>
       ) : (
-        /* ============================================
-            IMAGE PREVIEW WITH PREDICT BUTTON
-        ============================================ */
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="relative bg-white/5 backdrop-blur-md rounded-3xl p-6 border border-white/10"
+          className="relative bg-white/5 backdrop-blur-md rounded-3xl p-4 border border-white/10"
         >
-          {/* Image Preview Container */}
           <div className="relative group">
             <img
               src={preview}
               alt="Preview"
-              className="w-full max-h-[300px] md:max-h-[450px] object-contain md:object-cover rounded-2xl shadow-2xl bg-black/20"
+              className="w-full max-h-[250px] md:max-h-[350px] object-contain rounded-xl shadow-2xl bg-black/20"
             />
 
             {/* Remove Image Button */}
