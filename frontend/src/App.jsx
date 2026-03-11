@@ -72,13 +72,6 @@ export default function App() {
           <p className="text-gray-300 text-xs md:text-sm max-w-lg mx-auto leading-tight opacity-90">
             Advanced wildfire detection powered by deep learning.
           </p>
-        </motion.div>
-
-        {/* ============================================
-            TWO COLUMN GRID LAYOUT (Tighter)
-        ============================================ */}
-        <div className="flex-1 max-w-6xl w-full mx-auto overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-start h-full">
 
           {/* Feature Pills */}
           <motion.div
@@ -94,28 +87,26 @@ export default function App() {
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-2 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+                className="flex items-center gap-2 px-3 py-1 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
               >
-                <feature.icon className="w-4 h-4 text-orange-400" />
-                <span className="text-sm text-gray-300">{feature.text}</span>
+                <feature.icon className="w-3 h-3 md:w-4 md:h-4 text-orange-400" />
+                <span className="text-[10px] md:text-xs text-gray-300">{feature.text}</span>
               </div>
             ))}
           </motion.div>
         </motion.div>
 
         {/* ============================================
-            TWO COLUMN GRID LAYOUT
-            - Left: Upload Form & Image Preview
-            - Right: Results Card
+            TWO COLUMN GRID LAYOUT (Tighter)
         ============================================ */}
-        <div className="flex-1 max-w-7xl w-full mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="flex-1 max-w-6xl w-full mx-auto overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 items-start h-full">
 
             {/* ============================================
                 LEFT COLUMN - Upload Form
             ============================================ */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
               className="w-full"
@@ -132,18 +123,15 @@ export default function App() {
                 RIGHT COLUMN - Results Display
             ============================================ */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.5 }}
-              className="w-full lg:sticky lg:top-8"
+              className="w-full"
             >
               {/* Show result card when available, otherwise show placeholder */}
               {result ? (
                 <ResultCard result={result} />
               ) : (
-                // ============================================
-                // PLACEHOLDER WHEN NO RESULTS
-                // ============================================
                 <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 text-center min-h-[250px] md:min-h-[350px] flex flex-col items-center justify-center">
                   <motion.div
                     animate={{
@@ -158,7 +146,7 @@ export default function App() {
                   <h3 className="text-xl font-bold text-gray-400 mb-1">
                     Awaiting Analysis
                   </h3>
-                  <p className="text-gray-500 max-w-sm">
+                  <p className="text-gray-500 text-sm max-w-sm">
                     Upload an image to see wildfire detection results here
                   </p>
                 </div>
