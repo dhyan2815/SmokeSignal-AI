@@ -11,10 +11,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-        {/* ============================================
+      {/* ============================================
             FOREST FIRE CLIP BACKGROUND VIDEO
         ============================================ */}
-        <video
+      <video
         src="/forest_fire_clip.mp4"
         autoPlay
         loop
@@ -47,7 +47,7 @@ export default function App() {
           MAIN CONTENT WRAPPER
       ============================================ */}
       <div className="relative z-10 flex flex-col min-h-screen px-4 py-0">
-        
+
         {/* ============================================
             HEADER SECTION (Full Width)
         ============================================ */}
@@ -64,7 +64,7 @@ export default function App() {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
               className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-linear-to-br from-orange-500 to-red-600 rounded-2xl shadow-2xl"
-              >
+            >
               <Flame className="w-8 h-8 text-white" />
             </motion.div>
 
@@ -111,7 +111,7 @@ export default function App() {
         ============================================ */}
         <div className="flex-1 max-w-7xl w-full mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            
+
             {/* ============================================
                 LEFT COLUMN - Upload Form
             ============================================ */}
@@ -121,8 +121,8 @@ export default function App() {
               transition={{ delay: 0.3 }}
               className="w-full"
             >
-              <UploadForm 
-                result={result} 
+              <UploadForm
+                result={result}
                 setResult={setResult}
                 loading={loading}
                 setLoading={setLoading}

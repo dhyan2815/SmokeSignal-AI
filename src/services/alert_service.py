@@ -1,8 +1,22 @@
-from src.utils.notifier import send_alert
+from datetime import datetime
+from src.utils.alerts import send_email_alert
 
-def handle_alert(prediction: dict, threshold: float = 0.8):
-    """Trigger alert if confidence exceeds threshold."""
-    if prediction.get("label") == "Wildfire" and prediction.get("confidence", 0) >= threshold:
-        send_alert(prediction)
-        return {"alert_triggered": True, "message": "Emergency alert sent."}
-    return {"alert_triggered": False, "message": "No alert necessary."}
+def trigger_fire_alert(prediction_result: dict):
+    """
+    Triggers a wildfire alert if the prediction result indicates a wildfire.
+    Sends an email alert using the details from the prediction.
+    """
+    if prediction_result.get("label") == "Wildfire":
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        confidence = prediction_result.get("confidence", 0.0)
+        
+        # The send_email_alert function in src/utils/alerts.py
+        # retrieves target_email from Config.TARGET_EMAIL.
+        # It expects timestamp, confidence_score, and image_info.
+        send_email_alert(
+            timestamp=current_time,
+            confidence_score=confidence,
+            image_info={"source": "SmokeSignal AI Detection"} # Example image info
+        )
+        return {"status": "Alert sent"}
+    return {"status": "No alert triggered"}
