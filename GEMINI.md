@@ -5,8 +5,10 @@ Every time a change is made to this codebase (code modifications, settings adjus
 
 ## Changelog
 
-### [2026-03-11] Repository Cleanup
-- **Cleanup:** Deleted untracked utility scripts `test_alert_failure.py` and `test_load_model.py` to maintain a clean workspace.
+### [2026-03-11] Branch Consolidation & Merge
+- **Summary:** Generated `Branch_rebuild_Summary.MD` to document all architectural and UI enhancements.
+- **Merge:** Merged the `rebuild` branch into `main` to finalize the production rebuild.
+- **Cleanup:** Deleted the `rebuild` branch after successful merge.
 
 ### [2026-03-11] Architecture Cleanup & UI Optimization
 - **Backend Refactoring:** Cleaned up FastAPI backend by removing legacy Jinja2 UI templates (`src/templates`). Converted the backend into a pure JSON API. Fixed SMTP port configuration (5173 -> 465) for Gmail SSL. Added a global `ExceptionMiddleware` for standardized JSON error handling. Cleaned up unused imports and relative path hacks.
