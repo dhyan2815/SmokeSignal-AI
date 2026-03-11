@@ -1,2 +1,6 @@
 .env
 .venv
+
+# Gemini CLI
+.gemini/
+*.skill
