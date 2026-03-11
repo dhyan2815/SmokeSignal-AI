@@ -121,7 +121,7 @@ export default function UploadForm({ result, setResult, loading, setLoading }) {
             <img
               src={preview}
               alt="Preview"
-              className="w-full h-96 object-cover rounded-2xl shadow-2xl"
+              className="w-full max-h-[300px] md:max-h-[450px] object-contain md:object-cover rounded-2xl shadow-2xl bg-black/20"
             />
 
             {/* Remove Image Button */}

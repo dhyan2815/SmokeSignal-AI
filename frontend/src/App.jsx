@@ -46,7 +46,7 @@ export default function App() {
       {/* ============================================
           MAIN CONTENT WRAPPER
       ============================================ */}
-      <div className="relative z-10 flex flex-col min-h-screen px-4 py-0">
+      <div className="relative z-10 flex flex-col min-h-screen px-4 py-4 md:py-8">
 
         {/* ============================================
             HEADER SECTION (Full Width)
@@ -55,27 +55,27 @@ export default function App() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-8"
+          className="text-center mb-6 md:mb-10"
         >
-          <div className="flex items-center justify-center gap-4 pt-5">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 pt-2">
             {/* Logo/Icon */}
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-linear-to-br from-orange-500 to-red-600 rounded-2xl shadow-2xl"
+              className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 mb-2 md:mb-0 bg-linear-to-br from-orange-500 to-red-600 rounded-xl md:rounded-2xl shadow-2xl"
             >
-              <Flame className="w-8 h-8 text-white" />
+              <Flame className="w-6 h-6 md:w-8 md:h-8 text-white" />
             </motion.div>
 
             {/* Title */}
-            <h1 className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-red-500 to-pink-500 mb-3 py-3 tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-red-500 to-pink-500 tracking-tight py-2">
               SmokeSignal AI
             </h1>
           </div>
 
           {/* Subtitle */}
-          <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-300 text-sm md:text-base max-w-xl mx-auto leading-relaxed px-4">
             Advanced wildfire detection powered by deep learning. Upload
             satellite imagery for instant analysis with{" "}
             <span className="text-orange-400 font-semibold">95%+ accuracy</span>
@@ -145,7 +145,7 @@ export default function App() {
                 // ============================================
                 // PLACEHOLDER WHEN NO RESULTS
                 // ============================================
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8 md:p-12 text-center min-h-[300px] md:min-h-[400px] flex flex-col items-center justify-center">
                   <motion.div
                     animate={{
                       scale: [1, 1.1, 1],
