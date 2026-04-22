@@ -116,6 +116,59 @@ Please verify all detections before taking action.
 - **OpenCV** for image processing capabilities
 - **Gmail SMTP** for reliable email delivery
 
+## Setup & Execution
+
+Follow these steps to get the project running locally.
+
+### 1. Prerequisites
+- **Python 3.10+**
+- **Node.js 18+** & **npm**
+
+### 2. Backend Setup (FastAPI)
+The backend handles AI inference and automated alerts.
+
+1. **Navigate to the root directory:**
+   ```bash
+   cd SmokeSignal-AI
+   ```
+2. **Set up Virtual Environment (Optional but Recommended):**
+   ```bash
+   python -m venv .venv
+   # Windows:
+   .venv\Scripts\activate
+   # Mac/Linux:
+   source .venv/bin/activate
+   ```
+3. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Environment Variables:**
+   Ensure your `.env` file is configured with the correct SMTP credentials for alerts.
+5. **Run the Server:**
+   ```bash
+   python -m uvicorn src.main:app --reload
+   ```
+   - API: `http://localhost:8000`
+   - Swagger Docs: `http://localhost:8000/docs`
+
+### 3. Frontend Setup (React + Vite)
+The frontend provides a premium dashboard for image analysis.
+
+1. **Navigate to the frontend directory:**
+   ```bash
+   cd frontend
+   ```
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Run the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   - App: `http://localhost:5173`
+
 ---
 
 ## 👨‍💻 Author
@@ -136,3 +189,4 @@ Please verify all detections before taking action.
     <a href="https://github.com/dhyan2815/SmokeSignal-AI/issues">💡 Request Feature</a>
   </p>
 </div>
+
