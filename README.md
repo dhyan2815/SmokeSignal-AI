@@ -169,7 +169,7 @@ Please verify all detections before taking action.
 
 - GitHub: [@dhyan2815](https://github.com/dhyan2815)
 - LinkedIn: [Dhyan Patel](https://linkedin.com/in/dhyan-patel)
-- Portfolio: [Dhyan Dev](https://dhyan-patel.onrender.com)
+- Portfolio: [Dhyan Dev](https://dhyan-patel.notion.site/about-dhyan)
 
 ---
 
