@@ -5,6 +5,12 @@ Every time a change is made to this codebase (code modifications, settings adjus
 
 ## Changelog
 
+### [2026-04-22] Git Cache Cleanup (Final)
+- **Problem:** Tracked `__pycache__` files were causing persistent "modified" file changes in Git.
+- **Action:** Explicitly removed `__pycache__` and `utils/__pycache__` from the Git index using `git rm -r --cached`.
+- **Refinement:** Updated `.gitignore` with a comprehensive list of Python and environment patterns to prevent future tracking of cache files.
+
+
 ### [2026-04-22] Architectural Rollback to Streamlit
 - **Action:** Reverted the entire codebase to the functional Streamlit version from October 29, 2025 (Commit: `e2f118e`).
 - **Reasoning:** Backend/Frontend connectivity issues and model detection inaccuracies in the FastAPI/React version prompted a return to the last known fully functional architecture.
