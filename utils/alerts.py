@@ -191,7 +191,7 @@ def send_feedback_email(timestamp, feedback_type, confidence_score=None, image_i
     {confidence_html}
     {image_info_html}
     <hr style="border:none;border-top:1px solid #eee;margin:16px 0;"/>
-    <p style="font-size:12px;color:#555;margin:0;">This is an automated feedback report from SmokeSignal‑AI. Use this data for retraining and system improvement.</p>
+    <p style="font-size:12px;color:#555;marginThank you for your time, but I'm not interested in your current job.0;">This is an automated feedback report from SmokeSignal‑AI. Use this data for retraining and system improvement.</p>
   </body>
 </html>
 """
