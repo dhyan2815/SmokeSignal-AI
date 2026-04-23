@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'utils'))
 
 # Import configuration and utility modules
 from config import Config
-from alerts import send_email_alert
+from alerts import send_email_alert, send_feedback_email
 from preprocess import get_image_info, preprocess_for_model
 from ood import is_ood
 
@@ -134,17 +134,34 @@ if uploaded_file is not None:
             else:
                 st.success("✅ Area appears to be safe from wildfires")
             
-            # 3. User Feedback (No local saving)
+            # 3. User Feedback (Dynamic Reporting)
             st.divider()
             col1, col2 = st.columns([2, 1])
+            
+            # Determine feedback type based on the AI's result
+            # If AI said Wildfire (result=True), then user reports a False Positive
+            # If AI said No Wildfire (result=False), then user reports a False Negative
+            feedback_type = "False Positive" if result else "False Negative"
+            button_label = f"Report {feedback_type}"
+            
             with col1:
-                st.write("Is this result incorrect?")
+                st.write(f"Is this **{label}** result incorrect?")
             with col2:
-                if st.button("Report False Positive"):
-                    # Log report to console instead of saving image
-                    print(f"[USER REPORT] {datetime.now()} - False Positive reported for current image")
-                    st.toast("✅ Detection reported. Thank you for your feedback!")
-                    st.info("Thank you! Your feedback has been logged for system improvement.")
+                if st.button(button_label):
+                    # Log report to console
+                    report_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    print(f"[USER REPORT] {report_time} - {feedback_type} reported for current image")
+                    
+                    if enable_alerts:
+                        try:
+                            send_feedback_email(report_time, feedback_type, confidence_score, img_info)
+                            st.toast(f"✅ {feedback_type} reported via email!")
+                            st.success(f"Thank you! Your report has been sent to the administrator.")
+                        except Exception as e:
+                            st.error(f"Failed to send feedback email: {e}")
+                    else:
+                        st.toast("✅ Detection logged to console.")
+                        st.info("Thank you! Your feedback has been logged for system improvement.")
                 
         except Exception as e:
             st.error(
