@@ -38,3 +38,6 @@ venv.bak/
 # Gemini Memory
 GEMINI.md
 
+# Graphify outputs
+graphify-out/
+
