@@ -1,0 +1,24 @@
+                +---------------------+
+                |  Web Frontend (UI)  |
+                |  (Streamlit/Gradio) |
+                +----------+----------+
+                           |
+                    Upload Image
+                           ↓
+               +-----------+----------+
+               |  Model Inference     | <---- Load your .h5 CNN model
+               +-----------+----------+
+                           ↓
+             +-------------+--------------+
+             | Prediction: Wildfire/None |
+             +-------------+--------------+
+                           ↓
+            +--------------+--------------+
+            | Alert System (Email/SMS)    |
+            | Location Extraction (EXIF)  |
+            | Timestamp                   |
+            +--------------+--------------+
+                           ↓
+              +------------+-------------+
+              | Future: Camera/Drone     |
+              +--------------------------+
