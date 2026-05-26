@@ -121,6 +121,42 @@ Please verify all detections before taking action.
 
 ## Technical Architecture
 
+Here is a comprehensive view of the system architecture, detailing the workflow, data flow, sequence of operations, and entity relationships.
+
+### System Diagrams
+
+<details>
+<summary><b>Activity Diagram</b> (Click to expand)</summary>
+<div align="center">
+  <br>
+  <img src="architecture/activity_diagram.png" alt="Activity Diagram" width="800" />
+</div>
+</details>
+
+<details>
+<summary><b>Sequence Diagram</b> (Click to expand)</summary>
+<div align="center">
+  <br>
+  <img src="architecture/sequence_diagram.png" alt="Sequence Diagram" width="800" />
+</div>
+</details>
+
+<details>
+<summary><b>Data Flow Diagram (DFD)</b> (Click to expand)</summary>
+<div align="center">
+  <br>
+  <img src="architecture/dfd_diagram.png" alt="Data Flow Diagram" width="800" />
+</div>
+</details>
+
+<details>
+<summary><b>Entity-Relationship (ER) Diagram</b> (Click to expand)</summary>
+<div align="center">
+  <br>
+  <img src="architecture/er_diagram.png" alt="ER Diagram" width="800" />
+</div>
+</details>
+
 ### Model Framework
 
 - **Framework**: TensorFlow/Keras
