@@ -21,62 +21,6 @@
 
 Just upload your satellite image—SmokeSignal AI instantly scans for wildfire signs, delivers a confidence score, and, if danger is detected, triggers real-time email alerts to keep you and emergency teams ahead of the threat.
 
-## Model Development Pipeline
-
-This diagram shows the complete end-to-end workflow of our wildfire detection model:
-
-```mermaid
-flowchart TD
-  %% Real-time Inference Path
-  U["User & Browser"]:::external -->|"upload image"| UI["Streamlit App<br/>(app.py)"]:::frontend
-  UI -->|"raw image"| PP["Preprocessing Module<br/>(utils/preprocess.py)"]:::core
-  UI --> Assets["Static Assets<br/>(assets/)"]:::frontend
-  PP -->|"tensor"| IE["Inference Engine<br/>(Keras/TensorFlow)"]:::core
-  IE -->|"loads model"| MA["Model Artifact<br/>(wildfire_detector_model.keras)"]:::storage
-  IE -->|"confidence score"| UI
-  IE -->|"score ≥ threshold"| AM["Alert Module<br/>(utils/alerts.py)"]:::core
-  AM -.->|"reads env vars"| CFG["Configuration Module<br/>(config.py)"]:::doc
-  AM -->|"email request"| SMTP["Gmail SMTP Server"]:::external
-
-  %% Dependency Manifest
-  RQ["requirements.txt"]:::doc
-  RQ -.-> UI
-
-  %% Optional Offline Training Pipeline
-  subgraph "Offline Training (Optional)"
-      direction TB
-      NB["Training Notebook<br/>(SmokeSignal-AI.ipynb)"]:::offline
-      NB -->|"uses dataset"| DS["Kaggle Wildfire Dataset"]:::external
-      NB -->|"train & export"| MA
-      RQ -.-> NB
-  end
-
-  %% Click Events (All nodes are now defined *before* this block)
-  click UI "https://github.com/dhyan2815/smokesignal-ai/blob/main/app.py"
-  click Assets "https://github.com/dhyan2815/smokesignal-ai/tree/main/assets/"
-  click PP "https://github.com/dhyan2815/smokesignal-ai/blob/main/utils/preprocess.py"
-  click AM "https://github.com/dhyan2815/smokesignal-ai/blob/main/utils/alerts.py"
-  click CFG "https://github.com/dhyan2815/smokesignal-ai/blob/main/config.py"
-  click MA "https://github.com/dhyan2815/smokesignal-ai/blob/main/model/wildfire_detector_model.keras"
-  click NB "https://github.com/dhyan2815/smokesignal-ai/blob/main/notebooks/SmokeSignal-AI.ipynb"
-  click RQ "https://github.com/dhyan2815/smokesignal-ai/blob/main/requirements.txt"
-
-  %% Styles
-  classDef frontend fill:#D0E8FF,stroke:#0091EA,stroke-width:2px
-  classDef core fill:#E0F7FA,stroke:#006064,stroke-width:2px
-  classDef storage fill:#FFF8E1,stroke:#FFA000,stroke-width:2px
-  classDef external fill:#FFE0B2,stroke:#E65100,stroke-width:2px
-  classDef doc fill:#F3E5F5,stroke:#6A1B9A,stroke-width:2px,stroke-dasharray: 5 5
-  classDef offline fill:#F1F8E9,stroke:#33691E,stroke-width:2px,stroke-dasharray: 5 5
-```
-
-### Workflow Stages
-
-1. **📊 Data Collection & Preprocessing**: Kaggle Wildfire Dataset (42,850 images) with 64x64 resizing and normalization
-2. **🏗️ Model Architecture & Training**: CNN with Conv2D layers, MaxPooling, Dense layers, and Dropout regularization
-3. **📈 Training Evaluation & Monitoring**: Real-time accuracy tracking (94.82% training, 95.95% validation)
-4. **🧪 Model Testing & Validation**: Comprehensive evaluation on 6,300 test images
-5. **💾 Performance Analysis & Deployment**: Native Keras format for production-ready inference
 
 ## Demo Email Alert
 
