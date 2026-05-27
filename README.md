@@ -1,163 +1,145 @@
-# SmokeSignal AI
+﻿# SmokeSignal AI
 
-**A CNN–based wildfire detection system** that analyzes satellite images to identify potential wildfires and sends automated alerts to emergency contacts.
+SmokeSignal AI is a Streamlit-based wildfire detection application that uses a trained CNN model to analyze aerial or satellite imagery and flag potential wildfire events with confidence scores.
 
-<div align="center">
-  <img src="assets/whats_inside.png" alt="Project at a Glance - SmokeSignal AI" width="800" />
-  
-</div>
+## Table of Contents
+- [SmokeSignal AI](#smokesignal-ai)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Key Features](#key-features)
+  - [Architecture Diagrams](#architecture-diagrams)
+    - [Activity Diagram](#activity-diagram)
+    - [Sequence Diagram](#sequence-diagram)
+    - [Data Flow Diagram (DFD)](#data-flow-diagram-dfd)
+    - [Entity-Relationship (ER) Diagram](#entity-relationship-er-diagram)
+  - [Tech Stack](#tech-stack)
+  - [Project Structure](#project-structure)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Run the App](#run-the-app)
+  - [How It Works](#how-it-works)
+  - [Feedback Workflow](#feedback-workflow)
+  - [Troubleshooting](#troubleshooting)
+  - [Future Improvements](#future-improvements)
+  - [Author](#author)
 
-## Features
+## Overview
+The app accepts an uploaded image, validates whether it is likely in-domain (aerial/satellite style), preprocesses it for the model, runs wildfire inference, and optionally sends email alerts when a wildfire is detected.
 
-- **AI-Powered Detection**: Deep learning model for accurate wildfire identification
-- **Real-time Analysis**: Instant processing with confidence scoring
-- **Automated Alerts**: Email notifications to fire stations and emergency services
-- **User-Friendly Interface**: Clean, professional Streamlit web application
-- **Config-Aware Alerts**: Auto-enables email alerts when credentials are set
-- **Secure Configuration**: Environment-based email setup (no credentials in code)
-- **Confidence Scoring**: Detailed detection confidence levels
+## Key Features
+- CNN-based wildfire detection with confidence scoring
+- Out-of-distribution (OOD) scene validation before inference
+- Streamlit UI for quick upload and analysis
+- Automatic email alerting for positive detections
+- User feedback reporting (false positive / false negative)
 
-## How SmokeSignal AI works?
+## Architecture Diagrams
+The project architecture assets are in the [`architecture`](architecture) folder.
 
-Just upload your satellite image—SmokeSignal AI instantly scans for wildfire signs, delivers a confidence score, and, if danger is detected, triggers real-time email alerts to keep you and emergency teams ahead of the threat.
+- [Activity Diagram](architecture/activity_diagram.png)
+- [Sequence Diagram](architecture/sequence_diagram.png)
+- [Data Flow Diagram (DFD)](architecture/dfd_diagram.png)
+- [Entity-Relationship (ER) Diagram](architecture/er_diagram.png)
 
+### Activity Diagram
+![Activity Diagram](architecture/activity_diagram.png)
 
-## Demo Email Alert
+### Sequence Diagram
+![Sequence Diagram](architecture/sequence_diagram.png)
 
+### Data Flow Diagram (DFD)
+![Data Flow Diagram](architecture/dfd_diagram.png)
+
+### Entity-Relationship (ER) Diagram
+![ER Diagram](architecture/er_diagram.png)
+
+## Tech Stack
+- Python
+- Streamlit
+- TensorFlow / Keras
+- NumPy
+- Pillow
+- OpenCV (headless)
+- python-dotenv
+
+## Project Structure
+```text
+SmokeSignal-AI/
+- app.py                      # Streamlit entry point
+- config.py                   # Environment and app configuration
+- requirements.txt            # Python dependencies
+- architecture/               # System diagrams (ER, DFD, Sequence, Activity)
+- assets/                     # Static assets used in README/UI
+- model/                      # Trained model (.keras)
+- utils/
+  - alerts.py                 # Alert and feedback email logic
+  - ood.py                    # OOD detector using MobileNetV2
+  - preprocess.py             # Image preprocessing utilities
+- src/                        # Additional source modules
+- data/                       # Data assets
+- notebooks/                  # Experiments and research notebooks
 ```
-🔥Wildfire Detection Alert
 
-Detection Time: 2025-08-17 05:32:51
-System: SmokeSignal-AI Wildfire Detector
+## Prerequisites
+- Python 3.10+ recommended
+- Internet access for first-time MobileNetV2 weights download (OOD detector)
 
-⚠️ A potential wildfire has been detected in the analyzed image.
-
-Detection Level: 78.56%
-
-format: PIL Image
-width: 241
-height: 148
-channels: 3
-aspect_ratio: 1.6283783783783783
-
-Immediate Action Required
-Contact local emergency services if confirmed
-Monitor the area for further developments
-
-This is an automated alert from SmokeSignal-AI.
-Please verify all detections before taking action.
-
+## Installation
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-## What SmokeSignal-AI Detects
+## Configuration
+Create or update `.env` in the project root:
 
-### Active Fire Indicators
+```env
+EMAIL_ADDRESS=your_email@gmail.com
+EMAIL_PASSWORD=your_app_password
+TARGET_EMAIL=recipient@example.com
+```
 
-- Smoke plumes and visible fire
-- Bright thermal signatures
-- Active fire areas and flame patterns
+Notes:
+- Email alerts are enabled only when `EMAIL_ADDRESS` and `EMAIL_PASSWORD` are set.
+- `TARGET_EMAIL` defaults to `admin@example.com` if not provided.
 
-### Environmental Changes
+## Run the App
+```bash
+streamlit run app.py
+```
 
-- Burn scars and damage areas
-- Thermal anomalies and heat patterns
-- Vegetation changes indicating fire activity
+Then open the local URL shown by Streamlit (usually `http://localhost:8501`).
 
-## Technical Architecture
+## How It Works
+1. User uploads a JPG/PNG image.
+2. OOD detector screens for non-aerial/non-satellite scenes.
+3. Image is resized and normalized to model input requirements.
+4. CNN predicts wildfire probability.
+5. If score is above threshold, app labels wildfire and sends alert email (if configured).
 
-Here is a comprehensive view of the system architecture, detailing the workflow, data flow, sequence of operations, and entity relationships.
+## Feedback Workflow
+After each prediction, the app allows reporting:
+- False Positive (if model says wildfire but user disagrees)
+- False Negative (if model says no wildfire but user disagrees)
 
-### System Diagrams
+When email is configured, feedback is also sent via email for model monitoring.
 
-<details>
-<summary><b>Activity Diagram</b> (Click to expand)</summary>
-<div align="center">
-  <br>
-  <img src="architecture/activity_diagram.png" alt="Activity Diagram" width="800" />
-</div>
-</details>
+## Troubleshooting
+- `Model file not found`: Ensure `model/wildfire_detector_model.keras` exists.
+- `Email authentication failed`: Use an app password (not account password) for Gmail SMTP.
+- `OOD model download issues`: Ensure network access on first run.
+- Unsupported image errors: Use clear JPG/PNG aerial or satellite imagery.
 
-<details>
-<summary><b>Sequence Diagram</b> (Click to expand)</summary>
-<div align="center">
-  <br>
-  <img src="architecture/sequence_diagram.png" alt="Sequence Diagram" width="800" />
-</div>
-</details>
+## Future Improvements
+- Add automated test suite (`pytest`)
+- Add metrics dashboard for feedback trends
+- Add geolocation metadata support for alerts
+- Add containerized deployment configuration
 
-<details>
-<summary><b>Data Flow Diagram (DFD)</b> (Click to expand)</summary>
-<div align="center">
-  <br>
-  <img src="architecture/dfd_diagram.png" alt="Data Flow Diagram" width="800" />
-</div>
-</details>
-
-<details>
-<summary><b>Entity-Relationship (ER) Diagram</b> (Click to expand)</summary>
-<div align="center">
-  <br>
-  <img src="architecture/er_diagram.png" alt="ER Diagram" width="800" />
-</div>
-</details>
-
-### Model Framework
-
-- **Framework**: TensorFlow/Keras
-- **Input**: Satellite images (auto-resized)
-- **Output**: Binary classification with confidence scores
-- **Processing**: Real-time analysis pipeline
-
-### Preprocessing Pipeline
-
-1. **Image Loading**: Multi-format support (JPG, PNG)
-2. **Resizing**: Automatic dimension adjustment
-3. **Normalization**: Pixel values scaled to [0, 1]
-4. **Batch Processing**: Model-ready format
-
-### Alert System
-
-- **SMTP Integration**: Gmail SMTP for reliability
-- **Rich Content**: Timestamps, confidence scores, details
-- **Error Handling**: Graceful failure with user feedback
-
-## User Interface Features
-
-- **Clean detection interface** with file uploader
-- **Expandable quick guide** for minimal, high-signal help
-- **Real-time analysis** with progress/status indicator
-- **Concise results display** with confidence score
-
-## Data Privacy
-
-- Images are processed in-memory for analysis and are not stored by the app.
-- Email alerts include only detection metadata (timestamp, confidence, basic image info).
-- No personal information is collected.
-
-## Acknowledgments
-
-- **TensorFlow/Keras** for deep learning framework
-- **Streamlit** for the web application framework
-- **OpenCV** for image processing capabilities
-- **Gmail SMTP** for reliable email delivery
-
----
-
-## 👨‍💻 Author
-
-**Dhyan Patel**
-
+## Author
+Dhyan Patel
 - GitHub: [@dhyan2815](https://github.com/dhyan2815)
 - LinkedIn: [Dhyan Patel](https://linkedin.com/in/dhyan-patel)
-- Portfolio: [Dhyan Dev](https://dhyan-patel.notion.site/about-dhyan)
-
----
-
-**SmokeSignal-AI** - _Empowering emergency services with AI-driven wildfire detection technology._ 🚀🌲🔥
-
-<div align="center">
-  <p>
-    <a href="https://github.com/dhyan2815/SmokeSignal-AI/issues">🐛 Report Bug</a> •
-    <a href="https://github.com/dhyan2815/SmokeSignal-AI/issues">💡 Request Feature</a>
-  </p>
-</div>
+- Portfolio: [Dhyan Patel]([https://](https://dhyan-patel.framer.website/))
