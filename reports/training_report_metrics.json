@@ -1,0 +1,112 @@
+{
+  "report_title": "SmokeSignal AI - Training & Evaluation Report",
+  "generated_at": "2026-06-03 15:31:25.361568",
+  "dataset": {
+    "source": "Kaggle - abdelghaniaaba/wildfire-prediction-dataset",
+    "image_size": [
+      64,
+      64
+    ],
+    "class_mapping": {
+      "0": "No Wildfire",
+      "1": "Wildfire"
+    },
+    "splits": {
+      "train": {
+        "wildfire": 15750,
+        "nowildfire": 14500
+      },
+      "valid": {
+        "wildfire": 3480,
+        "nowildfire": 2820
+      },
+      "test": {
+        "wildfire": 3480,
+        "nowildfire": 2820
+      }
+    }
+  },
+  "model": {
+    "architecture": "CNN",
+    "layers": "Conv2D(32)-MaxPool-Conv2D(64)-MaxPool-Flatten-Dense(128)-Dropout(0.5)-Dense(1)",
+    "optimizer": "adam",
+    "loss": "binary_crossentropy",
+    "epochs": 5,
+    "total_params": 1625281,
+    "trainable_params": 1625281
+  },
+  "training_history": {
+    "loss": [
+      0.24149835109710693,
+      0.17815466225147247,
+      0.16054348647594452,
+      0.14741885662078857,
+      0.14257070422172546
+    ],
+    "accuracy": [
+      0.9008594751358032,
+      0.933190107345581,
+      0.9410578608512878,
+      0.9458512663841248,
+      0.9470082521438599
+    ],
+    "val_loss": [
+      0.17126496136188507,
+      0.13491210341453552,
+      0.1282305121421814,
+      0.12305606156587601,
+      0.13017970323562622
+    ],
+    "val_accuracy": [
+      0.9357143044471741,
+      0.9507936239242554,
+      0.9526984095573425,
+      0.9544444680213928,
+      0.9523809552192688
+    ]
+  },
+  "test_metrics": {
+    "accuracy": 0.9606349206349206,
+    "precision": 0.9609241300627496,
+    "recall": 0.968103448275862,
+    "f1_score": 0.9645004294302891,
+    "auc_roc": 0.9920512350207875,
+    "confusion_matrix": {
+      "tn": 2683,
+      "fp": 137,
+      "fn": 111,
+      "tp": 3369
+    }
+  },
+  "per_split_metrics": {
+    "train": {
+      "split": "train",
+      "accuracy": 0.5002644628099173,
+      "precision": 0.5193188060794727,
+      "recall": 0.5401904761904762,
+      "f1": 0.5295490617122585,
+      "auc": 0.49673783908045976
+    },
+    "valid": {
+      "split": "valid",
+      "accuracy": 0.9523809523809523,
+      "precision": 0.948645598194131,
+      "recall": 0.9660919540229885,
+      "f1": 0.9572892938496583,
+      "auc": 0.9891006358522867
+    },
+    "test": {
+      "split": "test",
+      "accuracy": 0.9606349206349206,
+      "precision": 0.9609241300627496,
+      "recall": 0.968103448275862,
+      "f1": 0.9645004294302891,
+      "auc": 0.9920512350207875
+    }
+  },
+  "failure_cases": {
+    "false_positive_count": 137,
+    "false_negative_count": 111,
+    "total_errors": 248
+  }
+}
