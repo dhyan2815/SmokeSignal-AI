@@ -33,6 +33,7 @@
 | Test split     | 6,300 images |
 | Epochs         | 5 |
 | Batch size     | 32 |
+| Learning rate | 0.001 (Adam default) |
 | Data augmentation | None (rescale 1/255 only) |
 | Hardware       | Google Colab (GPU) |
 | Training time  | ~17 min (5 epochs) |
@@ -92,8 +93,25 @@ Actual Fire        111        3,369
 
 ---
 
+## Inference Benchmark
+
+Tested on: Windows-11 (Python 3.12.5, TensorFlow 2.21.0, CPU only)
+
+| Batch Size | Mean (ms) | Std (ms) | P50 (ms) | P95 (ms) | P99 (ms) | Throughput (imgs/s) |
+|------------|-----------|----------|----------|----------|----------|---------------------|
+| 1          | 125.21    | 32.62    | 120.16   | 142.40   | 195.36   | 8.0                 |
+| 4          | 113.20    | 18.36    | 109.38   | 125.37   | 147.88   | 35.3                |
+| 8          | 122.48    | 18.87    | 120.28   | 143.43   | 212.89   | 65.3                |
+| 16         | 121.93    | 12.48    | 119.81   | 148.61   | 159.20   | 131.2               |
+
+- **Single image inference:** ~125ms mean latency (P95: 142ms)
+- **Batch processing:** Scales linearly up to batch size 16 (~131 imgs/s)
+- **Note:** No GPU available; CPU-only inference on consumer hardware
+
+---
+
 ## Maintainance
 
-- Model file: `/content/wildfire_detector_model.keras` (~18 MB)
+- Model file: `model/wildfire_detector_model.keras` (~18 MB)
 - Retraining should be considered when expanding to new geographies or if target accuracy drops below 92%.
 - Monitor FNR (missed fires) as the primary production metric — a missed detection is more costly than a false alarm.
