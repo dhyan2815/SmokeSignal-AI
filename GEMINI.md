@@ -2,6 +2,11 @@
 
 ## Changelog
 
+### 2026-06-06
+- Completed task 5 of issue #10: User Testing/Feedback Documentation.
+- Created `docs/TESTING.md` analyzing 6 beta testing responses from Google Forms.
+- Documented findings, UI responsiveness metrics, model false alarms (sunsets, non-wildfire images), and future roadmap items based on user suggestions.
+
 ### 2026-06-04
 - Completed task 4 of issue #10: Robustness & OOD Testing.
 - Created `tests/test_ood.py` for automated edge case testing.
