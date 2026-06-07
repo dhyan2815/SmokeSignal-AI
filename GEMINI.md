@@ -2,6 +2,10 @@
 
 ## Changelog
 
+### 2026-06-07
+- Completed task 6 of issue #10: Deployment/Monitoring Strategy.
+- Created `docs/DEPLOYMENT.md` documenting Streamlit Community Cloud hosting, Gmail SMTP alert configuration (App Passwords), local/cloud deployment steps, console-based logging strategy, and live demo link.
+
 ### 2026-06-06
 - Completed task 5 of issue #10: User Testing/Feedback Documentation.
 - Created `docs/TESTING.md` analyzing 6 beta testing responses from Google Forms.
