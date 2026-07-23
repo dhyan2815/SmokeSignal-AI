@@ -2,6 +2,15 @@
 
 ## Changelog
 
+### 2026-06-22
+- Explained the concept of Out-of-Distribution (OOD) data, providing examples from the project and detailing the MobileNetV2 keyword-matching mechanism used in SmokeSignal-AI.
+
+### 2026-06-21
+- Created `docs/INTERVIEW_QNA_SPECIFIC.md` containing targeted, conversational, and technical answers for the eight core interview questions about SmokeSignal-AI.
+
+### 2026-06-20
+- Created `docs/INTERVIEW_PREP.md` containing structured Q&As tailored for a fresher AI/ML developer, covering the model architecture, image preprocessing, OOD detection, robustness failures (black images, sunsets), and system deployment/feedback mechanisms.
+
 ### 2026-06-07
 - Completed task 6 of issue #10: Deployment/Monitoring Strategy.
 - Created `docs/DEPLOYMENT.md` documenting Streamlit Community Cloud hosting, Gmail SMTP alert configuration (App Passwords), local/cloud deployment steps, console-based logging strategy, and live demo link.

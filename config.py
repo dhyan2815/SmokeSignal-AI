@@ -21,7 +21,7 @@ class Config:
     MODEL_PATH = "model/wildfire_detector_model.keras"
     
     # Detection Configuration
-    CONFIDENCE_THRESHOLD = 0.5
+    CONFIDENCE_THRESHOLD = 0.80
     
     @classmethod
     def is_email_configured(cls):
