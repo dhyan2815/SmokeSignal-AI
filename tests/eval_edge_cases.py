@@ -39,7 +39,7 @@ def dark_cloud(img):
     return Image.fromarray(np.clip(a * shade, 0, 255).astype(np.uint8))
 
 
-SYNTHETIC = {'synthetic_sunset': sunset, 'synthetic_dark_cloud': dark_cloud}
+SYNTHETIC = {'control_untinted': lambda im: im, 'synthetic_sunset': sunset, 'synthetic_dark_cloud': dark_cloud}
 
 
 def fire_score(preds):
@@ -56,10 +56,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--edge-dir', help='folder of <category>/ subfolders of negative images')
     ap.add_argument('--base-dir', help='folder of no-fire tiles to tint synthetically')
+    ap.add_argument('--fire-dir', help='folder of true wildfire tiles, reports recall (gate: must not drop)')
     ap.add_argument('--limit', type=int, default=500, help='max images per category')
     args = ap.parse_args()
-    if not (args.edge_dir or args.base_dir):
-        ap.error('give --edge-dir and/or --base-dir')
+    if not (args.edge_dir or args.base_dir or args.fire_dir):
+        ap.error('give --edge-dir, --base-dir and/or --fire-dir')
 
     from tensorflow.keras.models import load_model
     from utils.preprocess import preprocess_for_model
@@ -79,6 +80,7 @@ def main():
         for name, fn in SYNTHETIC.items():
             sets[name] = [(p, fn) for p in base]
 
+    fire = [(p, None) for p in list_images(args.fire_dir)[:args.limit]] if args.fire_dir else []
     print(f"Model: {Config.MODEL_PATH}  output={model.output_shape}")
     print(f"{'category':<22}{'n':>6}" + ''.join(f"{'FPR@' + str(t):>11}" for t in THRESHOLDS))
     print('-' * (28 + 11 * len(THRESHOLDS)))
@@ -95,6 +97,10 @@ def main():
             scores.append(fire_score(model.predict(x, verbose=0)))
         s = np.array(scores)
         print(f"{cat:<22}{len(s):>6}" + ''.join(f"{(s > t).mean():>11.1%}" for t in THRESHOLDS))
+    if fire:
+        s = np.array([fire_score(model.predict(preprocess_for_model(Image.open(p).convert('RGB'), size), verbose=0))
+                      for p, _ in fire])
+        print(f"{'RECALL (true fire)':<22}{len(s):>6}" + ''.join(f"{(s > t).mean():>11.1%}" for t in THRESHOLDS))
     print("\nTarget (issue #12): FPR < 5%. Every image above is a true negative.")
 
 
