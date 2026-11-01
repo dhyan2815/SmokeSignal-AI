@@ -5,7 +5,7 @@ Issue #12, Step 2: transfer-learn the binary wildfire CNN into a 5-class softmax
     python src/train_multiclass.py --steps 20 --epochs1 1 --epochs2 1 --out /tmp/smoke.keras   # quick check
 
 Stage 1: freeze Conv2D/MaxPooling2D, train the head only (new Dense(5, softmax)).
-Stage 2: unfreeze everything, fine-tune at 1e-5 with early stopping on val_loss.
+Stage 2: unfreeze everything, fine-tune (--lr2, default 1e-4) with early stopping on val_loss.
 Evaluation against the baseline lives in src/evaluate_multiclass.py (Step 3).
 """
 import argparse
@@ -29,11 +29,12 @@ BATCH = 64
 
 
 def hsv_jitter(x):
-    """Random hue (+-15 deg), saturation and brightness (0.7-1.3) shift. x: float32 RGB 0-255."""
+    """Mild random hue (+-8 deg), saturation and brightness (0.8-1.2) shift. x: float32 RGB 0-255.
+    (+-15 deg / 0.7-1.3 underfit and cost fire recall in the first run; see issue #12.)"""
     hsv = cv2.cvtColor(np.clip(x, 0, 255).astype(np.uint8), cv2.COLOR_RGB2HSV).astype(np.float32)
-    hsv[..., 0] = (hsv[..., 0] + np.random.uniform(-7.5, 7.5)) % 180  # OpenCV hue is 0-179 (= degrees / 2)
-    hsv[..., 1] = np.clip(hsv[..., 1] * np.random.uniform(0.7, 1.3), 0, 255)
-    hsv[..., 2] = np.clip(hsv[..., 2] * np.random.uniform(0.7, 1.3), 0, 255)
+    hsv[..., 0] = (hsv[..., 0] + np.random.uniform(-4, 4)) % 180  # OpenCV hue is 0-179 (= degrees / 2)
+    hsv[..., 1] = np.clip(hsv[..., 1] * np.random.uniform(0.8, 1.2), 0, 255)
+    hsv[..., 2] = np.clip(hsv[..., 2] * np.random.uniform(0.8, 1.2), 0, 255)
     return cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2RGB).astype(np.float32)
 
 
@@ -55,7 +56,8 @@ def main():
     ap.add_argument('--base', default='model/wildfire_detector_model.keras')
     ap.add_argument('--out', default='model/wildfire_detector_multiclass.keras')
     ap.add_argument('--epochs1', type=int, default=5)
-    ap.add_argument('--epochs2', type=int, default=10)
+    ap.add_argument('--epochs2', type=int, default=20)
+    ap.add_argument('--lr2', type=float, default=1e-4, help='stage-2 fine-tune rate (1e-5 underfit in run 1)')
     ap.add_argument('--steps', type=int, help='cap steps per epoch (smoke runs)')
     args = ap.parse_args()
     tf.keras.utils.set_random_seed(42)
@@ -91,7 +93,7 @@ def main():
     # Stage 2: fine-tune everything; only overwrite the checkpoint if it beats stage 1
     for l in model.layers:
         l.trainable = True
-    compile_(model, 1e-5)
+    compile_(model, args.lr2)
     h2 = model.fit(train_gen, validation_data=val_gen, epochs=args.epochs2,
                    callbacks=[EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True),
                               ModelCheckpoint(args.out, monitor='val_loss', save_best_only=True,

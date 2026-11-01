@@ -27,13 +27,18 @@ import synth  # noqa: E402
 CLASSES = ['clear', 'cloud', 'fire', 'fog', 'smoke']
 SPLITS = ['train', 'valid', 'test']
 EXTS = ('.jpg', '.jpeg', '.png')
-# (target class, source folder, transform name)
+# (target class, source folder, transform name, splits it appears in)
+ALL, TEST_ONLY = tuple(SPLITS), ('test',)
 SYNTH_PLAN = [
-    ('clear', 'nowildfire', 'sunset'),
-    ('cloud', 'nowildfire', 'cloud'),
-    ('fog', 'nowildfire', 'fog'),
-    ('smoke', 'nowildfire', 'smoke'),
-    ('fire', 'wildfire', 'sunset'),
+    ('clear', 'nowildfire', 'sunset', ALL),
+    ('cloud', 'nowildfire', 'cloud', ALL),
+    ('fog', 'nowildfire', 'fog', ALL),
+    ('smoke', 'nowildfire', 'smoke', ALL),
+    ('fire', 'wildfire', 'sunset', ALL),
+    # hold-out generator families: never seen in training, so they measure generalization
+    ('cloud', 'nowildfire', 'cloud_cumulus', TEST_ONLY),
+    ('fog', 'nowildfire', 'fog_valley', TEST_ONLY),
+    ('smoke', 'nowildfire', 'smoke_plume', TEST_ONLY),
 ]
 
 
@@ -75,7 +80,9 @@ def main():
 
         # synthetic, one RNG per (split, plan row) so reruns are identical
         n = args.n_train if split == 'train' else args.n_eval
-        for cls, folder, tname in SYNTH_PLAN:
+        for cls, folder, tname, in_splits in SYNTH_PLAN:
+            if split not in in_splits:
+                continue
             seed_rng = random.Random(f"{args.seed}-{split}-{cls}-{tname}")
             pool = images(os.path.join(args.src, split, folder))
             picks = seed_rng.sample(pool, min(n, len(pool)))
@@ -87,7 +94,7 @@ def main():
                 except OSError:
                     print(f"skip unreadable: {split}/{folder}/{f}")
                     continue
-                name = f"syn_{tname}_{os.path.splitext(f)[0]}.jpg"
+                name = f"syn_{tname}__{os.path.splitext(f)[0]}.jpg"
                 fn(img, rng).save(os.path.join(args.dst, split, cls, name), quality=90)
                 rows.append((split, cls, name, f, f"synthetic_{tname}"))
             print(f"{split:<6} {cls:<6} synthetic_{tname}: {sum(1 for r in rows if r[:2] == (split, cls) and r[4] == 'synthetic_' + tname)}", flush=True)

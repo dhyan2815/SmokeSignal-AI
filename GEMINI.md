@@ -2,6 +2,9 @@
 
 ## Changelog
 
+### 2026-11-01
+- Issue #12 (branch `feat/12-multiclass-false-positive-reduction`): added 5-class pipeline (`src/curate_dataset.py`, `src/synth.py`, `src/train_multiclass.py`, `src/evaluate_multiclass.py`, `src/ingest_external.py`, `tests/eval_edge_cases.py`). Run 1 failed gates (recall 85.6%); data-layer fixes (smoke label noise, hold-out generator families, real IGNIS eval set) documented in `docs/ISSUE12_RETRAIN_RUNBOOK.md`.
+
 ### 2026-06-22
 - Explained the concept of Out-of-Distribution (OOD) data, providing examples from the project and detailing the MobileNetV2 keyword-matching mechanism used in SmokeSignal-AI.
 

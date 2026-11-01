@@ -30,6 +30,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--model', default='model/wildfire_detector_multiclass.keras')
     ap.add_argument('--data', default='data/multiclass/test')
+    ap.add_argument('--real-dir', default='data/real_eval')
     ap.add_argument('--alert-threshold', type=float, default=0.5)
     args = ap.parse_args()
 
@@ -67,7 +68,7 @@ def main():
     cats = defaultdict(list)
     for n, f, a in zip(names, gen.filenames, is_alert):
         if n.startswith('syn_'):
-            cats[(f.split('/')[0].split('\\')[0], n.split('_')[1])].append(a)
+            cats[(f.split('/')[0].split('\\')[0], n[4:].split('__')[0])].append(a)
     print('\n=== Synthetic edge cases (test split) ===')
     all_fpr_ok = True
     for (cls, t), v in sorted(cats.items()):
@@ -78,6 +79,23 @@ def main():
             print(f"{t + ' / ' + cls:<22} n={len(v):<5} FPR {rate:6.1%}  {'PASS' if ok else 'FAIL'}")
         else:  # fire / smoke positives: alert rate is recall
             print(f"{t + ' / ' + cls:<22} n={len(v):<5} alert-rate (recall) {rate:6.1%}")
+
+    print(f"\noriginal fire tiles by predicted class: "
+          f"{dict(zip(classes, np.bincount(pred[pos], minlength=len(classes)).tolist()))}")
+
+    # real external images (src/ingest_external.py): never trained on, so this is the honest generalization check
+    if os.path.isdir(args.real_dir):
+        have = [c for c in classes if os.path.isdir(os.path.join(args.real_dir, c))]
+        rgen = ImageDataGenerator(rescale=1 / 255.).flow_from_directory(
+            args.real_dir, target_size=model.input_shape[1:3], batch_size=64, class_mode='categorical',
+            classes=have, shuffle=False)
+        rp = model.predict(rgen, verbose=0)
+        r_alert = (rp[:, classes.index('fire')] + rp[:, classes.index('smoke')]) > args.alert_threshold
+        r_pred = rp.argmax(1)  # indices into the full 5-class output
+        print('\n=== Real external images (never trained on) ===')
+        for ci, c in enumerate(have):
+            m = rgen.classes == ci
+            print(f"{c:<8} n={m.sum():<4} alert-rate {r_alert[m].mean():6.1%}  argmax->{c}: {(r_pred[m] == classes.index(c)).mean():6.1%}")
 
     verdict = ok_p and ok_r and all_fpr_ok
     print(f"\nOVERALL: {'PASS' if verdict else 'FAIL'}")
