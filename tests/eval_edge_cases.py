@@ -16,27 +16,13 @@ import numpy as np
 from PIL import Image
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 from config import Config  # noqa: E402
+from synth import dark_cloud, sunset  # noqa: E402
 
 EXTS = ('.jpg', '.jpeg', '.png')
 THRESHOLDS = (0.5, Config.CONFIDENCE_THRESHOLD, 0.9, 0.95)
 FIRE_IDX, SMOKE_IDX = 2, 4  # Plan A class order: clear, cloud, fire, fog, smoke
-
-
-def sunset(img):
-    """Warm orange cast + slightly dimmer, like low-sun light."""
-    a = np.asarray(img, dtype=np.float32)
-    a = a * np.array([1.25, 0.85, 0.55]) * 0.85
-    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
-
-
-def dark_cloud(img):
-    """Darken + desaturate with a top-down shadow gradient, like monsoon cover."""
-    a = np.asarray(img, dtype=np.float32)
-    gray = a.mean(axis=2, keepdims=True)
-    a = 0.4 * a + 0.6 * gray
-    shade = np.linspace(0.35, 0.75, a.shape[0])[:, None, None]
-    return Image.fromarray(np.clip(a * shade, 0, 255).astype(np.uint8))
 
 
 SYNTHETIC = {'control_untinted': lambda im: im, 'synthetic_sunset': sunset, 'synthetic_dark_cloud': dark_cloud}

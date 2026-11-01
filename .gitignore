@@ -40,3 +40,5 @@ GEMINI.md
 
 # Graphify outputs
 graphify-out/
+# multiclass dataset (issue #12) - regenerate with src/curate_dataset.py
+data/multiclass/
